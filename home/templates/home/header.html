@@ -1,0 +1,38 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <img src="{% static 'home/images/logo.png' %}" style="height: 50px; width: 50px;">
+            <a class="navbar-brand mr-4" href="{% url 'home' %}" style="color: black; margin-left: 30px;">MARQUEE HVAC</a>
+
+            <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+
+            </div>
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+                    <a class="nav-item nav-link" href="">About Us</a>
+                    <div class="dropdown">
+                        <a class="nav-item nav-link" href="#">Products
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="#">Link 1</a>
+                            <a href="#">Link 2</a>
+                            <a href="#">Link 3</a>
+                        </div>
+                    </div>
+                    <a class="nav-item nav-link" href="">Downloads</a>
+                    <a class="nav-item nav-link" href="">Services</a>
+                    <a class="nav-item nav-link" href="">Contact US</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
