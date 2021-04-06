@@ -118,6 +118,10 @@ ul {
 
 .header__info {
   margin: 50px 60px 0 60px;
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 2s;
+  animation-name: fade;
+  animation-duration: 2s;
 }
 
 .header__info-top {
@@ -517,14 +521,28 @@ input[type="radio"]:checked + .lbl-redio {
   height: 200px;
 }
 
+.hide_it {
+  display: none;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .1}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .1}
+  to {opacity: 1}
+}
+
 @keyframes moveInTop {
   0% {
-    opacity: 0;
-    transform: translateY(-100px);
+    opacity: 1;
+    transform: translateY(0);
   }
   80% {
     opacity: 1;
-    transform: translateY(20px);
+    transform: translateY(0);
   }
   100% {
     opacity: 1;
