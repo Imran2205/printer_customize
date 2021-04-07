@@ -7,96 +7,117 @@
     {% include "home/header.html" %}
     <div class="site-content">
         <div class="welcome_bg">
-            <div class="row header__info hide_it" id="slide1">
-                <div class="col-md-8">
-                    <span class="header__info-top">3D Printer</span>
-                    <h1 class="header__info-title">best performance</h1>
-                    <p class="header__info-product_dis">
-                        A 3D printer that can do your most of the desired work. Product
-                        that you can be used for most of the 3D printing you want to do.
-                    </p>
-                    <a href="#" class="header__info-learn_more">Learn More</a>
-                    <span class="header__info-special_feature">Special Feature</span>
-                    <span class="header__info-feature">- UPS module</span>
-                    <span class="header__info-feature">- Auto bed leveling</span>
-                    <span class="header__info-feature">- Silent motor driver</span>
-                    <span class="header__info-price">Price: 25,000 BDT</span>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row header__info">
+                            <div class="col-md-8">
+                                <span class="header__info-top">3D Printer</span>
+                                <h1 class="header__info-title">best performance</h1>
+                                <p class="header__info-product_dis">
+                                    A 3D printer that can do your most of the desired work. Product
+                                    that you can be used for most of the 3D printing you want to do.
+                                </p>
+                                <a href="#" class="header__info-learn_more">Learn More</a>
+                                <span class="header__info-special_feature">Special Feature</span>
+                                <span class="header__info-feature">- UPS module</span>
+                                <span class="header__info-feature">- Auto bed leveling</span>
+                                <span class="header__info-feature">- Silent motor driver</span>
+                                <span class="header__info-price">Price: 25,000 BDT</span>
 
-                    <a href="#" class="button button-white" style="float: left">
-                        <i class="fas fa-shopping-cart"></i> add to cart
-                    </a>
-                    <a href="#" class="button button-outline">customize</a>
+                                <a href="#" class="button button-white" style="float: left">
+                                    <i class="fas fa-shopping-cart"></i> add to cart
+                                </a>
+                                <a href="#" class="button button-outline">customize</a>
 
+                            </div>
+                            <div class="col-md-4 header__img">
+                                <img
+                                    class="header__img-size"
+                                    src="{% static 'home/images/3d_printer.png' %}"
+                                    alt="3d Printer"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row header__info" >
+                            <div class="col-md-8">
+                                <span class="header__info-top">3D Printer</span>
+                                <h1 class="header__info-title">best performance</h1>
+                                <p class="header__info-product_dis">
+                                    A 3D printer that can do your most of the desired work. Product
+                                    that you can be used for most of the 3D printing you want to do.
+                                </p>
+                                <a href="#" class="header__info-learn_more">Learn More</a>
+                                <span class="header__info-special_feature">Special Feature</span>
+                                <span class="header__info-feature">- UPS module</span>
+                                <span class="header__info-feature">- Auto bed leveling</span>
+                                <span class="header__info-feature">- Silent motor driver</span>
+                                <span class="header__info-price">Price: 25,000 BDT</span>
+
+                                <a href="#" class="button button-white" style="float: left">
+                                    <i class="fas fa-shopping-cart"></i> add to cart
+                                </a>
+                                <a href="#" class="button button-outline">customize</a>
+
+                            </div>
+                            <div class="col-md-4 header__img">
+                                <img
+                                    class="header__img-size"
+                                    src="{% static 'home/images/3d_printer.png' %}"
+                                    alt="3d Printer"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row header__info">
+                            <div class="col-md-8">
+                                <span class="header__info-top">3D Printer</span>
+                                <h1 class="header__info-title">best performance</h1>
+                                <p class="header__info-product_dis">
+                                    A 3D printer that can do your most of the desired work. Product
+                                    that you can be used for most of the 3D printing you want to do.
+                                </p>
+                                <a href="#" class="header__info-learn_more">Learn More</a>
+                                <span class="header__info-special_feature">Special Feature</span>
+                                <span class="header__info-feature">- UPS module</span>
+                                <span class="header__info-feature">- Auto bed leveling</span>
+                                <span class="header__info-feature">- Silent motor driver</span>
+                                <span class="header__info-price">Price: 25,000 BDT</span>
+
+                                <a href="#" class="button button-white" style="float: left">
+                                    <i class="fas fa-shopping-cart"></i> add to cart
+                                </a>
+                                <a href="#" class="button button-outline">customize</a>
+
+                            </div>
+                            <div class="col-md-4 header__img">
+                                <img
+                                    class="header__img-size"
+                                    src="{% static 'home/images/3d_printer.png' %}"
+                                    alt="3d Printer"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4 header__img">
-                    <img
-                        class="header__img-size"
-                        src="{% static 'home/images/3d_printer.png' %}"
-                        alt="3d Printer"
-                    />
-                </div>
-            </div>
 
-            <div class="row header__info hide_it" id="slide2">
-                <div class="col-md-8">
-                    <span class="header__info-top">3D Printer</span>
-                    <h1 class="header__info-title">best performance</h1>
-                    <p class="header__info-product_dis">
-                        A 3D printer that can do your most of the desired work. Product
-                        that you can be used for most of the 3D printing you want to do.
-                    </p>
-                    <a href="#" class="header__info-learn_more">Learn More</a>
-                    <span class="header__info-special_feature">Special Feature</span>
-                    <span class="header__info-feature">- UPS module</span>
-                    <span class="header__info-feature">- Auto bed leveling</span>
-                    <span class="header__info-feature">- Silent motor driver</span>
-                    <span class="header__info-price">Price: 25,000 BDT</span>
-
-                    <a href="#" class="button button-white" style="float: left">
-                        <i class="fas fa-shopping-cart"></i> add to cart
-                    </a>
-                    <a href="#" class="button button-outline">customize</a>
-
-                </div>
-                <div class="col-md-4 header__img">
-                    <img
-                        class="header__img-size"
-                        src="{% static 'home/images/3d_printer.png' %}"
-                        alt="3d Printer"
-                    />
-                </div>
-            </div>
-
-            <div class="row header__info hide_it" id="slide3">
-                <div class="col-md-8">
-                    <span class="header__info-top">3D Printer</span>
-                    <h1 class="header__info-title">best performance</h1>
-                    <p class="header__info-product_dis">
-                        A 3D printer that can do your most of the desired work. Product
-                        that you can be used for most of the 3D printing you want to do.
-                    </p>
-                    <a href="#" class="header__info-learn_more">Learn More</a>
-                    <span class="header__info-special_feature">Special Feature</span>
-                    <span class="header__info-feature">- UPS module</span>
-                    <span class="header__info-feature">- Auto bed leveling</span>
-                    <span class="header__info-feature">- Silent motor driver</span>
-                    <span class="header__info-price">Price: 25,000 BDT</span>
-
-                    <a href="#" class="button button-white" style="float: left">
-                        <i class="fas fa-shopping-cart"></i> add to cart
-                    </a>
-                    <a href="#" class="button button-outline">customize</a>
-
-                </div>
-                <div class="col-md-4 header__img">
-                    <img
-                        class="header__img-size"
-                        src="{% static 'home/images/3d_printer.png' %}"
-                        alt="3d Printer"
-                    />
-                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
+
         <div style="width: 100%; height: auto; padding-left: 20px;">
             <div class="row margin_0 padding_0" style="width: 100%;">
                 <div class="col-md productCard_outer_div padding_0">
@@ -140,7 +161,7 @@
                                 <h2 class="productCard__info-title">best budget</h2>
                                 <span class="productCard__info-special_feature">
                                     special feature
-                                </span>hide_it
+                                </span>
                                 <span class="productCard__info-feature">- UPS module</span>
                                 <span class="productCard__info-feature">- Auto bed leveling</span>
                                 <span class="productCard__info-feature">- Silent motor driver</span>
@@ -264,8 +285,7 @@
                             <div class="col-3 offset-md-1">
                                 <span class="productName"> height (mm) </span>
                             </div>
-                        i
-"    <div class="col">
+                            <div class="col">
                                 <select class="form-select" aria-label="Default select example">
                                     <option value="1">150</option>
                                     <option value="2">160</option>
@@ -544,30 +564,8 @@
 
 {% block js %}
     <script type="text/javascript">
-        var checker = function(){
-            slide_count = slide_count + 1;
-            if(slide_count > 3){
-                slide_count = 1;
-            }
-
-            for(var i=1; i<=num_of_slides; i++){
-                var id = "slide"+i;
-                var element = document.getElementById(id);
-                if(i == slide_count){
-                    element.classList.remove("hide_it");
-                }
-                else{
-                    element.classList.add("hide_it");
-                }
-            }
-
-        }
-        var total_seconds = 6;
-        var slide_count = 0;
-        var num_of_slides = 3;
-        checker();
-        setInterval(function(){
-            checker();
-        },total_seconds * 1000);
+      $('.carousel').carousel({
+        interval: 5000
+      })
     </script>
 {% endblock js %}
