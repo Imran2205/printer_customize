@@ -23,11 +23,14 @@ from django.contrib import admin
 from django.views.decorators.cache import cache_page
 from home import views as views
 from django.urls import path
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
     path('admin362880/', admin.site.urls),
     path('', include('home.urls')),
+    path('login/', auth_views.LoginView.as_view(template_name='home/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='home/home.html'), name='logout'),
 ]
 
 if settings.DEBUG:
