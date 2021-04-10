@@ -23,4 +23,9 @@ class UserRegisterForm(UserCreationForm):
 class User_address_form(forms.ModelForm):
     class Meta:
         model = Profile_info
-        fields = ['address','address2','city','state','zip', 'country_code', 'phone']
+        fields = ['address','address2','city','state','zip']
+
+class User_phone_number_form(forms.ModelForm):
+    class Meta:
+        model = Profile_info
+        fields = ['phone']
