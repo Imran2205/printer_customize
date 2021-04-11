@@ -21,7 +21,7 @@ def home(request):
     }
     return render(request, 'home/home.html', context)
 
-def login_register(request):
+def login_register(request, log_or_reg):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
         phone_form = User_phone_number_form(request.POST)
@@ -47,7 +47,7 @@ def login_register(request):
             )
             email.send()
             messages.success(request, f'Registration complete! Please verify your email before trying to login!')
-            return redirect('login_register')
+            return redirect('login_register', log_or_reg='login')
         elif login_form.is_valid():
             #username = request.POST.get('username')
             #password = request.POST.get('password')
@@ -55,7 +55,8 @@ def login_register(request):
             password = login_form.cleaned_data.get('password')
             user = authenticate(username = username, password = password)
             if user:
-                if user.is_active:
+   
+             if user.is_active:
                     login(request, user)
                     messages.success(request, f'Login successful.')
                     return redirect('home')
@@ -77,6 +78,11 @@ def login_register(request):
         user_form = UserRegisterForm()
         phone_form = User_phone_number_form()
         login_form = AuthenticationForm(request)
+        if log_or_reg == 'register':
+            messages.error(request, f'register')
+        else:
+            messages.error(request, f'login')
+
     context = {
         'user_form': user_form,
         'phone_form': phone_form,
@@ -96,9 +102,9 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         messages.success(request, f'Verification done! You may now login.')
-        return redirect('login_register')
+        return redirect('login_register', log_or_reg='login')
     else:
         messages.success(request, f'Verification Failed! Please try again or contact us for verifying your account.')
-        return redirect('login_register')
+        return redirect('login_register', log_or_reg='login')
 
 

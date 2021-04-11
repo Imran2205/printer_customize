@@ -29,8 +29,12 @@
                         </div>
                     </div>
                     <a class="nav-item nav-link" href="">Downloads</a>
-                    <a class="nav-item nav-link" href="">Sign Up</a>
-                    <a class="nav-item nav-link" href="">Log In</a>
+                    {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="">Account</a>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login_register' log_or_reg='register' %}">Sign Up</a>
+                        <a class="nav-item nav-link" href="{% url 'login_register' log_or_reg='login' %}">Log In</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

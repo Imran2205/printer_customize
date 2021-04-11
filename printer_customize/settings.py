@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import json
+with open('/etc/config.json') as config_file:
+    config = json.load(config_file)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -132,6 +134,22 @@ LOGOUT_REDIRECT_URL = 'home'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'login_register'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DJANGO_POPUP_VIEW_FIELD_TEMPLATE_PACK = 'bootstrap4'
+
+"""EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'support@machronics.com'
+EMAIL_HOST_PASSWORD = 'Machronics@362880'
+DEFAULT_FROM_EMAIL = 'Machronics <'+EMAIL_HOST_USER+'>'"""
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = config.get('EMAIL_PASS')
+DEFAULT_FROM_EMAIL = 'machronics <'+EMAIL_HOST_USER+'>'

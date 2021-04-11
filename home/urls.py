@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('login_register/', views.login_register, name='login_register'),
+    path('login_register/<str:log_or_reg>', views.login_register, name='login_register'),
     path('logout/', auth_views.LogoutView.as_view(template_name='home/home.html'), name='logout'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
 ]
