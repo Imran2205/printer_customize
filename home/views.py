@@ -67,6 +67,12 @@ def login_register(request):
                 return redirect('login_register')"""
             login(request, login_form.get_user())
             return redirect('home')
+        else:
+            if 'first_name' in request.POST:
+                messages.error(request, f'register')
+            else:
+                messages.error(request, f'login')
+
     else:
         user_form = UserRegisterForm()
         phone_form = User_phone_number_form()
