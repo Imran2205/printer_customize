@@ -107,4 +107,7 @@ def activate(request, uidb64, token):
         messages.success(request, f'Verification Failed! Please try again or contact us for verifying your account.')
         return redirect('login_register', log_or_reg='login')
 
-
+def dashboard(request):
+    context = {
+    }
+    return render(request, 'home/dashboard.html', context)
