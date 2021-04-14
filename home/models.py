@@ -29,8 +29,7 @@ class BestOffers(models.Model):
     abl = models.BooleanField()
     wifi = models.BooleanField()
     price = models.IntegerField()
-    outgoing = models.FloatField()
-    belonging_order_id = models.IntegerField()
+    discount_price = models.IntegerField(null=True)
 
 
     def __str__(self):

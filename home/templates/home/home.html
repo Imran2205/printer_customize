@@ -30,10 +30,18 @@
                                 <span class="header__info-feature">- Silent motor driver</span>
                                 <span class="header__info-price">Price: 25,000 BDT</span>
 
-                                <a href="#" class="button button-white" style="float: left">
-                                    <i class="fas fa-shopping-cart"></i> add to cart
-                                </a>
-                                <a href="#" class="button button-outline">customize</a>
+                                {% if user.is_authenticated %}
+                                    <a href="#" class="button button-white" style="float: left">
+                                        <i class="fas fa-shopping-cart"></i> add to cart
+                                    </a>
+                                    <a href="#" class="button button-outline">customize</a>
+                                {% else %}
+                                    <a href="{% url 'login_register' log_or_reg="login" %}" class="button button-white" style="float: left">
+                                        <i class="fas fa-shopping-cart"></i> add to cart
+                                    </a>
+                                    <a href="{% url 'login_register' log_or_reg="login" %}" class="button button-outline">customize</a>
+                                {% endif %}
+
 
                             </div>
                             <div class="col-md-4 header__img">
