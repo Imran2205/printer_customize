@@ -9,26 +9,31 @@
         <div class="welcome_bg">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    {% for offer in best_offers %}
+                    {% if offer.id == 1 %}
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ offer.id|add:"-1" }}" class="active"></li>
+                    {% else %}
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ offer.id|add:"-1" }}"></li>
+                    {% endif %}
+                    {% endfor %}
                 </ol>
                 <div class="carousel-inner">
+                    {% for offer in best_offers %}
+                    {% if offer.id == 1 %}
                     <div class="carousel-item active">
                         <div class="row header__info">
                             <div class="col-md-8">
                                 <span class="header__info-top">3D Printer</span>
-                                <h1 class="header__info-title">best performance</h1>
+                                <h1 class="header__info-title">{{ offer.title }}</h1>
                                 <p class="header__info-product_dis">
-                                    A 3D printer that can do your most of the desired work. Product
-                                    that you can be used for most of the 3D printing you want to do.
+                                    {{ offer.description }}
                                 </p>
-                                <a href="#" class="header__info-learn_more">Learn More</a>
+                                <!-- <a href="#" class="header__info-learn_more">Learn More</a> -->
                                 <span class="header__info-special_feature">Special Feature</span>
-                                <span class="header__info-feature">- UPS module</span>
-                                <span class="header__info-feature">- Auto bed leveling</span>
-                                <span class="header__info-feature">- Silent motor driver</span>
-                                <span class="header__info-price">Price: 25,000 BDT</span>
+                                <span class="header__info-feature">- {{ offer.feature1 }}</span>
+                                <span class="header__info-feature">- {{ offer.feature2 }}</span>
+                                <span class="header__info-feature">- {{ offer.feature3 }}</span>
+                                <span class="header__info-price">Price: {{ offer.price }} BDT</span>
 
                                 {% if user.is_authenticated %}
                                     <a href="#" class="button button-white" style="float: left">
@@ -53,26 +58,33 @@
                             </div>
                         </div>
                     </div>
+                    {% else %}
                     <div class="carousel-item">
                         <div class="row header__info" >
                             <div class="col-md-8">
                                 <span class="header__info-top">3D Printer</span>
-                                <h1 class="header__info-title">best performance</h1>
+                                <h1 class="header__info-title">{{ offer.title }}</h1>
                                 <p class="header__info-product_dis">
-                                    A 3D printer that can do your most of the desired work. Product
-                                    that you can be used for most of the 3D printing you want to do.
+                                    {{ offer.description }}
                                 </p>
-                                <a href="#" class="header__info-learn_more">Learn More</a>
+                                <!-- <a href="#" class="header__info-learn_more">Learn More</a> -->
                                 <span class="header__info-special_feature">Special Feature</span>
-                                <span class="header__info-feature">- UPS module</span>
-                                <span class="header__info-feature">- Auto bed leveling</span>
-                                <span class="header__info-feature">- Silent motor driver</span>
-                                <span class="header__info-price">Price: 25,000 BDT</span>
+                                <span class="header__info-feature">- {{ offer.feature1 }}</span>
+                                <span class="header__info-feature">- {{ offer.feature2 }}</span>
+                                <span class="header__info-feature">- {{ offer.feature3 }}</span>
+                                <span class="header__info-price">Price: {{ offer.price }} BDT</span>
 
-                                <a href="#" class="button button-white" style="float: left">
-                                    <i class="fas fa-shopping-cart"></i> add to cart
-                                </a>
-                                <a href="#" class="button button-outline">customize</a>
+                                {% if user.is_authenticated %}
+                                    <a href="#" class="button button-white" style="float: left">
+                                        <i class="fas fa-shopping-cart"></i> add to cart
+                                    </a>
+                                    <a href="#" class="button button-outline">customize</a>
+                                {% else %}
+                                    <a href="{% url 'login_register' log_or_reg="login" %}" class="button button-white" style="float: left">
+                                        <i class="fas fa-shopping-cart"></i> add to cart
+                                    </a>
+                                    <a href="{% url 'login_register' log_or_reg="login" %}" class="button button-outline">customize</a>
+                                {% endif %}
 
                             </div>
                             <div class="col-md-4 header__img">
@@ -84,37 +96,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item">
-                        <div class="row header__info">
-                            <div class="col-md-8">
-                                <span class="header__info-top">3D Printer</span>
-                                <h1 class="header__info-title">best performance</h1>
-                                <p class="header__info-product_dis">
-                                    A 3D printer that can do your most of the desired work. Product
-                                    that you can be used for most of the 3D printing you want to do.
-                                </p>
-                                <a href="#" class="header__info-learn_more">Learn More</a>
-                                <span class="header__info-special_feature">Special Feature</span>
-                                <span class="header__info-feature">- UPS module</span>
-                                <span class="header__info-feature">- Auto bed leveling</span>
-                                <span class="header__info-feature">- Silent motor driver</span>
-                                <span class="header__info-price">Price: 25,000 BDT</span>
-
-                                <a href="#" class="button button-white" style="float: left">
-                                    <i class="fas fa-shopping-cart"></i> add to cart
-                                </a>
-                                <a href="#" class="button button-outline">customize</a>
-
-                            </div>
-                            <div class="col-md-4 header__img">
-                                <img
-                                    class="header__img-size"
-                                    src="{% static 'home/images/3d_printer.png' %}"
-                                    alt="3d Printer"
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
 
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -128,19 +111,20 @@
 
         <div style="width: 100%; height: auto; padding-left: 20px;">
             <div class="row margin_0 padding_0" style="width: 100%;">
+                {% for offer in best_offers %}
                 <div class="col-md productCard_outer_div padding_0">
-                    <div class="productCard pColor1">
-                        <div class="row" style="padding: 20px 20px 20px 20px;">
+                    <div class=" {% if offer.id == 2 %}pColor2{% else %}pColor1{% endif %}">
+                        <div style="padding: 20px 20px 20px 20px;">
                             <div class="col-sm productCard__info">
-                                <h2 class="productCard__info-title">best budget</h2>
+                                <h2 class="productCard__info-title">{{ offer.title }}</h2>
                                 <span class="productCard__info-special_feature">
                                     special feature
                                 </span>
-                                <span class="productCard__info-feature">- UPS module</span>
-                                <span class="productCard__info-feature">- Auto bed leveling</span>
-                                <span class="productCard__info-feature">- Silent motor driver</span>
-                                <span class="productCard__info-price">Price: 25,000 BDT</span>
-
+                                <span class="productCard__info-feature">- {{ offer.feature1 }}</span>
+                                <span class="productCard__info-feature">- {{ offer.feature2 }}</span>
+                                <span class="productCard__info-feature">- {{ offer.feature3 }}</span>
+                                <span class="productCard__info-price">Price: {{ offer.price }} BDT</span>
+                                {% if user.is_authenticated %}
                                 <div style="margin-top: 20px; margin-bottom: 20px;">
                                     <a href="#" class="buttonSmall-red">
                                         <i class="fas fa-shopping-cart"></i> add to cart
@@ -150,86 +134,30 @@
                                 <div style="margin-top: 20px; margin-bottom: 20px;">
                                     <a href="#" class="buttonSmall-outlineRed">customize</a>
                                 </div>
-
-                            </div>
-                            <div class="col-sm productCard__img">
-                                <img
-                                    class="productCard__img-size"
-                                    src="{% static 'home/images/3d_printer.png' %}"
-                                    alt="3d Printer"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md productCard_outer_div padding_0">
-                    <div class="productCard pColor2">
-                        <div class="row" style="padding: 20px 20px 20px 20px;">
-                            <div class="col-sm productCard__info">
-                                <h2 class="productCard__info-title">best budget</h2>
-                                <span class="productCard__info-special_feature">
-                                    special feature
-                                </span>
-                                <span class="productCard__info-feature">- UPS module</span>
-                                <span class="productCard__info-feature">- Auto bed leveling</span>
-                                <span class="productCard__info-feature">- Silent motor driver</span>
-                                <span class="productCard__info-price">Price: 25,000 BDT</span>
-
+                                {% else %}
                                 <div style="margin-top: 20px; margin-bottom: 20px;">
-                                    <a href="#" class="buttonSmall-red">
+                                    <a href="{% url 'login_register' log_or_reg="login" %}" class="buttonSmall-red">
                                         <i class="fas fa-shopping-cart"></i> add to cart
                                     </a>
                                 </div>
 
                                 <div style="margin-top: 20px; margin-bottom: 20px;">
-                                    <a href="#" class="buttonSmall-outlineRed">customize</a>
+                                    <a href="{% url 'login_register' log_or_reg="login" %}" class="buttonSmall-outlineRed">customize</a>
                                 </div>
+                                {% endif %}
 
                             </div>
                             <div class="col-sm productCard__img">
                                 <img
                                     class="productCard__img-size"
-                                    src="{% static 'home/images/3d_printer.png' %}"
+                                    src="{% static 'home/images/3d_prpColor1inter.png' %}"
                                     alt="3d Printer"
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md productCard_outer_div padding_0">
-                    <div class="productCard pColor1">
-                        <div class="row" style="padding: 20px 20px 20px 20px;">
-                            <div class="col-sm productCard__info">
-                                <h2 class="productCard__info-title">best budget</h2>
-                                <span class="productCard__info-special_feature">
-                                    special feature
-                                </span>
-                                <span class="productCard__info-feature">- UPS module</span>
-                                <span class="productCard__info-feature">- Auto bed leveling</span>
-                                <span class="productCard__info-feature">- Silent motor driver</span>
-                                <span class="productCard__info-price">Price: 25,000 BDT</span>
-
-                                <div style="margin-top: 20px; margin-bottom: 20px;">
-                                    <a href="#" class="buttonSmall-red">
-                                        <i class="fas fa-shopping-cart"></i> add to cart
-                                    </a>
-                                </div>
-
-                                <div style="margin-top: 20px; margin-bottom: 20px;">
-                                    <a href="#" class="buttonSmall-outlineRed">customize</a>
-                                </div>
-
-                            </div>
-                            <div class="col-sm productCard__img">
-                                <img
-                                    class="productCard__img-size"
-                                    src="{% static 'home/images/3d_printer.png' %}"
-                                    alt="3d Printer"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         <div style="width: 100%; height: auto">

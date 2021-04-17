@@ -14,14 +14,18 @@ from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
+from .models import BestOffers, Profile_info
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
+    best_offers = BestOffers.objects.all()
     context = {
+        'best_offers': best_offers
     }
     return render(request, 'home/home.html', context)
 
-def login_register(request, log_or_reg):
+def login_register(request, log_or_reg='login'):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
         phone_form = User_phone_number_form(request.POST)
@@ -107,6 +111,7 @@ def activate(request, uidb64, token):
         messages.success(request, f'Verification Failed! Please try again or contact us for verifying your account.')
         return redirect('login_register', log_or_reg='login')
 
+@login_required
 def dashboard(request):
     context = {
     }
