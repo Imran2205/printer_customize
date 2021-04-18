@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile_info, BestOffers
+from .models import ProfileInfo, BestOffers
 from phonenumber_field.modelfields import PhoneNumberField
 from django import forms
 from django.template.defaultfilters import filesizeformat
@@ -22,10 +22,10 @@ class UserRegisterForm(UserCreationForm):
 
 class User_address_form(forms.ModelForm):
     class Meta:
-        model = Profile_info
+        model = ProfileInfo
         fields = ['address','address2','city','state','zip']
 
 class User_phone_number_form(forms.ModelForm):
     class Meta:
-        model = Profile_info
+        model = ProfileInfo
         fields = ['phone']

@@ -43,29 +43,9 @@ motor_driver = [
     ('silent', 'Silent'),
 ]
 
-cover = [
-    ('yes', 'Yes'),
+yes_or_no = [
     ('no', 'No'),
-]
-
-filament_chamber = [
     ('yes', 'Yes'),
-    ('no', 'No'),
-]
-
-ups = [
-    ('yes', 'Yes'),
-    ('no', 'No'),
-]
-
-abl_support = [
-    ('yes', 'Yes'),
-    ('no', 'No'),
-]
-
-wifi_support = [
-    ('yes', 'Yes'),
-    ('no', 'No'),
 ]
 
 filament_q = [
@@ -81,22 +61,36 @@ bed_size = [
     ('600x600', '600x600'),
 ]
 
+height = [
+    ('200', '200'),
+    ('250', '250'),
+    ('300', '300'),
+    ('350', '350'),
+    ('400', '400'),
+    ('450', '450'),
+    ('500', '500'),
+    ('550', '550'),
+    ('600', '600'),
+    ('650', '650'),
+    ('700', '700'),
+]
+
 class BestOffers(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     bed_size = models.CharField(max_length=100, choices=bed_size, default='220x220')
-    height = models.CharField(max_length=100, default='')
+    height = models.CharField(max_length=100, choices=height, default='200')
     feature1 = models.CharField(max_length=100, default='')
     feature2 = models.CharField(max_length=100, default='')
     feature3 = models.CharField(max_length=100, default='')
     nozzle = models.CharField(max_length=100, choices=nozzles, default='single')
     display = models.CharField(max_length=100, choices=display, default='knob')
     motor_driver_type = models.CharField(max_length=100, choices=motor_driver, default='normal')
-    cover = models.CharField(max_length=100, choices=cover, default='no')
-    filament_chamber = models.CharField(max_length=100, choices=filament_chamber, default='no')
-    ups_module = models.CharField(max_length=100, choices=ups, default='no')
-    abl = models.CharField(max_length=100, choices=abl_support, default='no')
-    wifi = models.CharField(max_length=100, choices=wifi_support, default='no')
+    cover = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    filament_chamber = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    ups_module = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    abl = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    wifi = models.CharField(max_length=100, choices=yes_or_no, default='no')
     filament = models.CharField(max_length=100, choices=filament_q, default='1kg')
     price = models.IntegerField()
     discount_price = models.IntegerField(null=True)
@@ -138,16 +132,16 @@ class ProfileInfo(models.Model):
 class Orders(models.Model):
     title = models.CharField(max_length=100)
     order_time = models.DateTimeField(default=timezone.now)
-    bed_size = models.CharField(max_length=100, default='')
-    height = models.CharField(max_length=100, default='')
+    bed_size = models.CharField(max_length=100, choices=bed_size, default='220x220')
+    height = models.CharField(max_length=100, choices=height, default='200')
     nozzle = models.CharField(max_length=100, choices=nozzles, default='single')
     display = models.CharField(max_length=100, choices=display, default='knob')
     motor_driver_type = models.CharField(max_length=100, choices=motor_driver, default='normal')
-    cover = models.CharField(max_length=100, choices=cover, default='no')
-    filament_chamber = models.CharField(max_length=100, choices=filament_chamber, default='no')
-    ups_module = models.CharField(max_length=100, choices=ups, default='no')
-    abl = models.CharField(max_length=100, choices=abl_support, default='no')
-    wifi = models.CharField(max_length=100, choices=wifi_support, default='no')
+    cover = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    filament_chamber = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    ups_module = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    abl = models.CharField(max_length=100, choices=yes_or_no, default='no')
+    wifi = models.CharField(max_length=100, choices=yes_or_no, default='no')
     filament = models.CharField(max_length=100, choices=filament_q, default='1kg')
     price = models.IntegerField()
     discount_price = models.IntegerField(null=True)
@@ -175,6 +169,50 @@ class BedSize(models.Model):
 
 
 class Height(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+class Nozzle(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+class Display(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+class UPSModule(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+class MotorDriver(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField()
 
@@ -219,6 +257,17 @@ class WiFi(models.Model):
 
 
 class FilamentChamber(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+class FilamentQuantity(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField()
 

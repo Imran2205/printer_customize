@@ -14,7 +14,7 @@ from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import BestOffers, Profile_info
+from .models import BestOffers, ProfileInfo
 from django.contrib.auth.decorators import login_required
 
 
