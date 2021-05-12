@@ -299,6 +299,39 @@ ul {
   height: auto;
 }
 
+.buttonSmall:link, .buttonSmall:visited {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: bebas, "Poppins", sans-serif;
+  font-size: 24px;
+  display: block;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.buttonSmall-outlineDark {
+  border-color: #f2f2f2;
+  border: 2px solid;
+  color: #f2f2f2;
+  padding: 10px 10px;
+}
+.buttonSmall-outlineDark:hover {
+  padding: 12px 12px;
+}
+
+.buttonSmall:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  background-color: #f2f2f2;
+  color: #f21d44;
+  border: 0;
+}
+
+.buttonSmall:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+}
+
 .buttonSmall-red {
   background-color: #f21d44;
   color: #f2f2f2;
@@ -420,12 +453,42 @@ input[type="radio"]:checked + .lbl-redio {
 
 .form-select {
   font-family: "Poppins", sans-serif;
-  font-size: 1.8rem;
+  font-size: 18px;
   padding: 4px 16px;
   border: 2px solid;
   border-color: #f21d44;
   border-radius: 6px;
   color: #330009;
+}
+
+.contentBox {
+  place-items: center;
+  display: grid;
+}
+.contentBox .productPicInfo {
+  height: 500px;
+  width: 500px;
+  background-image: linear-gradient(to top, #f21d44, rgba(242, 126, 157, 0.9));
+  border-radius: 12px;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  padding: 40px;
+  place-items: center;
+  display: grid;
+}
+.contentBox .productPicInfo-img {
+  width: 50%;
+  height: auto;
+}
+.contentBox .productPicInfo-name {
+  font-family: bebas, "Poppins", sans-serif;
+  color: #f2f2f2;
+  font-size: 36px;
+  margin-bottom: -2px;
+}
+.contentBox .productPicInfo-price {
+  font-family: bebas, "Poppins", sans-serif;
+  font-size: 24px;
 }
 
 .footer-custom {

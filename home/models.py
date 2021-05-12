@@ -156,7 +156,7 @@ class Orders(models.Model):
 
 
 class BedSize(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=bed_size, default='220x220')
     price = models.IntegerField()
     lowest_height = models.IntegerField()
     highest_height = models.IntegerField()
@@ -169,7 +169,8 @@ class BedSize(models.Model):
 
 
 class Height(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=height, default='200')
+    bed_size = models.CharField(max_length=100, choices=bed_size, default='220x220')
     price = models.IntegerField()
 
     def __str__(self):
@@ -180,7 +181,7 @@ class Height(models.Model):
 
 
 class Nozzle(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=nozzles, default='single')
     price = models.IntegerField()
 
     def __str__(self):
@@ -191,7 +192,7 @@ class Nozzle(models.Model):
 
 
 class Display(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=display, default='knob')
     price = models.IntegerField()
 
     def __str__(self):
@@ -202,7 +203,7 @@ class Display(models.Model):
 
 
 class UPSModule(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
 
     def __str__(self):
@@ -213,7 +214,7 @@ class UPSModule(models.Model):
 
 
 class MotorDriver(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=motor_driver, default='normal')
     price = models.IntegerField()
 
     def __str__(self):
@@ -224,7 +225,7 @@ class MotorDriver(models.Model):
 
 
 class Covered(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
 
     def __str__(self):
@@ -235,7 +236,7 @@ class Covered(models.Model):
 
 
 class ABL(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
 
     def __str__(self):
@@ -246,7 +247,7 @@ class ABL(models.Model):
 
 
 class WiFi(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
 
     def __str__(self):
@@ -257,7 +258,7 @@ class WiFi(models.Model):
 
 
 class FilamentChamber(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
 
     def __str__(self):
@@ -268,7 +269,7 @@ class FilamentChamber(models.Model):
 
 
 class FilamentQuantity(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, choices=filament_q, default='1kg')
     price = models.IntegerField()
 
     def __str__(self):
