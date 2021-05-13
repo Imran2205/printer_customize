@@ -1,43 +1,62 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
-<header class="site-header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-            <img src="{% static 'home/images/logo.png' %}" style="height: 50px; width: 50px;">
-            <a class="navbar-brand mr-4" href="{% url 'home' %}" style="color: black; margin-left: 30px;">MARQUEE HVAC</a>
-
-            <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-
-            </div>
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-                    <a class="nav-item nav-link" href="">About Us</a>
-                    <div class="dropdown">
-                        <a class="nav-item nav-link" href="#">Products
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                        <div class="dropdown-content">
-                            <a href="#">Link 1</a>
-                            <a href="#">Link 2</a>
-                            <a href="#">Link 3</a>
-                        </div>
-                    </div>
-                    <a class="nav-item nav-link" href="">Downloads</a>
-                    {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" href="{% url 'dashboard' %}">Account</a>
-                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-                    {% else %}
-                        <a class="nav-item nav-link" href="{% url 'login_register' log_or_reg='register' %}">Sign Up</a>
-                        <a class="nav-item nav-link" href="{% url 'login_register' log_or_reg='login' %}">Log In</a>
-                    {% endif %}
-                </div>
-            </div>
+<div class="navigation">
+    <div class="container">
+      <nav class="nav">
+        <div class="nav__hamburger">
+          <svg>
+            <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-menu"></use>
+          </svg>
         </div>
-    </nav>
-</header>
+
+        <div class="nav__logo">
+          <a href="/" class="scroll-link"
+            ><img
+              src="{% static 'home/images/icon.png' %}"
+              alt="Machronics"
+              class="logo-icon"
+            />Machronics</a
+          >
+        </div>
+        <div class="nav__menu">
+          <div class="menu__top">
+            <span class="nav_category">Machronics</span>
+            <a href="#" class="close__toggle">
+              <svg>
+                <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-cross"></use>
+              </svg>
+            </a>
+          </div>
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a href="#" class="nav__link scroll-link">Home</a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#" class="nav__link scroll-link">Shop</a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#" class="nav__link scroll-link">Services</a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#" class="nav__link scroll-link">My account</a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#" class="nav__link scroll-link">About</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav__icons">
+          <a href="#" class="icon__item">
+            <img src="{% static 'home/images/shopping_bag_black_24dp.svg' %}" alt="Cart" />
+          </a>
+          <span id="cart__total">0</span>
+        </div>
+      </nav>
+    </div>
+</div>
