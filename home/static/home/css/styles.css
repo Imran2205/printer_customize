@@ -67,7 +67,7 @@ h4 {
 
 .navigation {
   position: relative;
-  height: 9rem;
+  height: 9.5rem;
   box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 }
 .nav {
@@ -113,8 +113,9 @@ h4 {
   height: 100%;
   width: 100%;
 }
-.nav__item:not(:last-child) {
+.nav__item {
   margin-right: 1.6rem;
+  margin-top: 0.8rem;
 }
 .nav__list .nav__link {
   color: var(--black2);
@@ -153,11 +154,11 @@ h4 {
 }
 
 /* Nevbar responsive */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1068px) {
   .nav__menu {
     position: fixed;
     top: 0;
-    left: -30rem;
+    left: -60rem;
     width: 0;
     background-color: var(--white);
     z-index: 9990;
@@ -166,7 +167,7 @@ h4 {
   }
 
   .nav__menu.open {
-    left: 30rem;
+    left: 0.1rem;
     width: 30rem;
   }
 
@@ -200,6 +201,7 @@ h4 {
     align-items: start;
     padding: 1.6rem 1rem;
     height: 46%;
+    margin-top: 8rem;
   }
   .nav__item:not(:last-child) {
     margin-right: 0;
@@ -1015,6 +1017,7 @@ input[type="radio"]:checked + .lbl-redio {
 /* container */
 .c_container {
   padding: 0 60px;
+  margin-bottom: 60px;
 }
 /* grid */
 .user-dahboard {

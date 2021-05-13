@@ -2,61 +2,76 @@
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
 <header class="navigation">
-        <div class="container">
-          <nav class="nav">
-            <div class="nav__hamburger">
-              <svg>
-                <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-menu"></use>
-              </svg>
-            </div>
+  <div class="container">
+    <nav class="nav">
+      <div class="nav__hamburger">
+        <svg>
+          <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-menu"></use>
+        </svg>
+      </div>
 
-            <div class="nav__logo">
-              <a href="/" class="scroll-link"
-                ><img
-                  src="{% static 'home/images/icon.png' %}"
-                  alt="Machronics"
-                  class="logo-icon"
-                />Machronics</a
-              >
-            </div>
-            <div class="nav__menu">
-              <div class="menu__top">
-                <span class="nav_category">Machronics</span>
-                <a href="#" class="close__toggle">
-                  <svg>
-                    <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-cross"></use>
-                  </svg>
-                </a>
-              </div>
-              <ul class="nav__list">
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">Home</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">Shop</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">Services</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">My account</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">About</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="nav__icons">
-              <a href="#" class="icon__item">
-                <img src="{% static 'home/images/shopping_bag_black_24dp.svg' %}" alt="Cart" />
-              </a>
-              <span id="cart__total">0</span>
-            </div>
-          </nav>
+      <div class="nav__logo">
+        <a href="{% url 'home' %}" class="scroll-link"
+        ><img
+                src="{% static 'home/images/icon.png' %}"
+                alt="Machronics"
+                class="logo-icon"
+        />Machronics</a
+        >
+      </div>
+      <div class="nav__menu">
+        <div class="menu__top">
+          <span class="nav_category">Machronics</span>
+          <a href="#" class="close__toggle">
+            <svg>
+              <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-cross"></use>
+            </svg>
+          </a>
         </div>
-      </header>
+        <ul class="nav__list">
+          <li class="nav__item">
+            <a href="{% url 'home' %}" class="nav__link scroll-link">Home</a>
+          </li>
+
+          <li class="nav__item">
+            <a href="#" class="nav__link scroll-link">Shop</a>
+          </li>
+
+          <li class="nav__item">
+            <a href="#" class="nav__link scroll-link">Services</a>
+          </li>
+
+          <li class="nav__item">
+            <a href="#" class="nav__link scroll-link">About</a>
+          </li>
+
+          {% if user.is_authenticated %}
+          <li class="nav__item">
+            <a href="{% url 'dashboard' %}" class="nav__link scroll-link">My account</a>
+          </li>
+
+          <li class="nav__item">
+            <a href="{% url 'logout' %}" class="nav__link scroll-link">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav__item">
+            <a href="{% url 'login_register' log_or_reg='login' %}" class="nav__link scroll-link">Login</a>
+          </li>
+
+          <li class="nav__item">
+            <a href="{% url 'login_register' log_or_reg='register' %}" class="nav__link scroll-link">Register</a>
+          </li>
+          {% endif %}
+
+        </ul>
+      </div>
+
+      <div class="nav__icons">
+        <a href="#" class="icon__item">
+          <img src="{% static 'home/images/shopping_bag_black_24dp.svg' %}" alt="Cart"/>
+        </a>
+        <span id="cart__total">0</span>
+      </div>
+    </nav>
+  </div>
+</header>
