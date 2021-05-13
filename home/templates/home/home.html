@@ -4,9 +4,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <header class="header" id="header">
+    <div class="header" id="header">
+
       {% include "home/header.html" %}
-      <!-- Main Area -->
       <div class="main">
         <div class="glide" id="glide_1">
           <div class="glide__track" data-glide-el="track">
@@ -145,7 +145,7 @@
           </div>
         </div>
       </div>
-    </header>
+    </div>
 
     <!-- product -->
     <main id="product">
@@ -504,7 +504,7 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Bed Size (MM)</span>
                   </div>
-                  <div class="col-2">./img/3d_printer.png
+                  <div class="col-2">
                     <input
                       type="radio"
                       name="productTypeBed"
@@ -574,7 +574,7 @@
 
                 <!-- Nozzel -->
                 <div class="row selector">
-                  <div class="col-3 offset-md-1">./img/3d_printer.png
+                  <div class="col-3 offset-md-1">
                     <span class="productName">Nozzel</span>
                   </div>
                   <div class="col-2">
