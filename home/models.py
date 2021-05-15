@@ -57,6 +57,7 @@ filament_q = [
 bed_size = [
     ('220x220', '220x220'),
     ('300x300', '300x300'),
+    ('400x400', '400x400'),
     ('440x440', '440x440'),
     ('600x600', '600x600'),
 ]
@@ -277,3 +278,10 @@ class FilamentQuantity(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+class Image(models.Model):
+    offer = models.OneToOneField(BestOffers, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='images/')
+
+    def __str__(self):
+        return self.offer.title + "_image"

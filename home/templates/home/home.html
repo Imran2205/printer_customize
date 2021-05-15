@@ -5,34 +5,26 @@
 
 {% block content %}
     <div class="header" id="header">
-
       {% include "home/header.html" %}
       <div class="main">
         <div class="glide" id="glide_1">
           <div class="glide__track" data-glide-el="track">
             <ul class="glide__slides">
+              {% for offer in best_offers %}
               <li class="glide__slide">
                 <div class="main_center">
                   <div class="main__left">
                     <span class="header__info-top">3D Printer</span>
-                    <h1 class="header__info-title">best performance</h1>
+                    <h1 class="header__info-title">{{ offer.title }}</h1>
                     <p class="header__info-product_dis">
-                      A 3D printer that can do your most of the desired work.
-                      Product that you can be used for most of the 3D printing
-                      you want to do.
+                      {{ offer.description }}
                     </p>
                     <a href="#" class="header__info-learn_more">Learn More</a>
-                    <span class="header__info-special_feature"
-                      >Special Feature</span
-                    >
-                    <span class="header__info-feature">- UPS module</span>
-                    <span class="header__info-feature"
-                      >- Auto bed leveling</span
-                    >
-                    <span class="header__info-feature"
-                      >- Silent motor driver</span
-                    >
-                    <span class="header__info-price">Price: 25,000 BDT</span>
+                    <span class="header__info-special_feature">Special Feature</span>
+                    <span class="header__info-feature">- {{ offer.feature1 }}</span>
+                    <span class="header__info-feature">- {{ offer.feature2 }}</span>
+                    <span class="header__info-feature">- {{ offer.feature3 }}</span>
+                    <span class="header__info-price">Price: {{ offer.price }} BDT</span>
 
                     <a href="#" class="buton buton-white">Shop now</a>
                     <a href="#" class="buton buton-outline">customize</a>
@@ -40,15 +32,16 @@
                   <div class="main__right">
                     <div class="main__img-container">
                       <img
-                        src="{% static 'home/images/3d_printer.png' %}"
-                        alt="Printer 01"
-                        class="printer_01"
+                        src="{{ offer.image.image.url }}"
+                        alt="Printer 0{{ offer.id }}"
+                        class="printer_0{{ offer.id }}"
                       />
                     </div>
                   </div>
                 </div>
               </li>
-              <li class="glide__slide">
+              {% endfor %}
+              <!--<li class="glide__slide">
                 <div class="main_center">
                   <div class="main__left">
                     <span class="header__info-top">3D Printer</span>
@@ -121,7 +114,7 @@
                     </div>
                   </div>
                 </div>
-              </li>
+              </li>-->
             </ul>
           </div>
 
@@ -216,7 +209,7 @@
                             <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-star-full"></use>
                           </svg>
                           <svg>
-                            <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-star-full"></use>
+                            <use xlink:25,000href="{% static 'home/images/sprite.svg' %}#icon-star-full"></use>
                           </svg>
                         </div>
                         <div class="product__price">
@@ -288,7 +281,7 @@
                           </svg>
                           <svg>
                             <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-star-full"></use>
-                          </svg>
+                          </svg>25,000
                           <svg>
                             <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-star-full"></use>
                           </svg>
@@ -835,11 +828,9 @@
               </div>
             </div>
             <!-- submit button -->
-            <div class="submitbtn">
+            <div class="submitbtn" style="margin-top: 5rem;">
               <input type="submit" value="confirm">
             </div>
-
-
           </div>
         </section>
       </div>
