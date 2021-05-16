@@ -41,80 +41,6 @@
                 </div>
               </li>
               {% endfor %}
-              <!--<li class="glide__slide">
-                <div class="main_center">
-                  <div class="main__left">
-                    <span class="header__info-top">3D Printer</span>
-                    <h1 class="header__info-title">best performance</h1>
-                    <p class="header__info-product_dis">
-                      A 3D printer that can do your most of the desired work.
-                      Product that you can be used for most of the 3D printing
-                      you want to do.
-                    </p>
-                    <a href="#" class="header__info-learn_more">Learn More</a>
-                    <span class="header__info-special_feature"
-                      >Special Feature</span
-                    >
-                    <span class="header__info-feature">- UPS module</span>
-                    <span class="header__info-feature"
-                      >- Auto bed leveling</span
-                    >
-                    <span class="header__info-feature"
-                      >- Silent motor driver</span
-                    >
-                    <span class="header__info-price">Price: 25,000 BDT</span>
-
-                    <a href="#" class="buton buton-white">Shop Now</a>
-                    <a href="#" class="buton buton-outline">customize</a>
-                  </div>
-                  <div class="main__right">
-                    <div class="main__img-container">
-                      <img
-                        src="{% static 'home/images/chiron-01.png' %}"
-                        alt="Printer 02"
-                        class="printer_02"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="glide__slide">
-                <div class="main_center">
-                  <div class="main__left">
-                    <span class="header__info-top">3D Printer</span>
-                    <h1 class="header__info-title">best performance</h1>
-                    <p class="header__info-product_dis">
-                      A 3D printer that can do your most of the desired work.
-                      Product that you can be used for most of the 3D printing
-                      you want to do.
-                    </p>
-                    <a href="#" class="header__info-learn_more">Learn More</a>
-                    <span class="header__info-special_feature"
-                      >Special Feature</span
-                    >
-                    <span class="header__info-feature">- UPS module</span>
-                    <span class="header__info-feature"
-                      >- Auto bed leveling</span
-                    >
-                    <span class="header__info-feature"
-                      >- Silent motor driver</span
-                    >
-                    <span class="header__info-price">Price: 25,000 BDT</span>
-
-                    <a href="#" class="buton buton-white">Shop Now</a>
-                    <a href="#" class="buton buton-outline">customize</a>
-                  </div>
-                  <div class="main__right">
-                    <div class="main__img-container">
-                      <img
-                        src="{% static 'home/images/3d_printer.png' %}"
-                        alt="Printer 03"
-                        class="printer_03"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </li>-->
             </ul>
           </div>
 
@@ -497,42 +423,24 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Bed Size (MM)</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeBed"
-                      id="220"
-                      class="hidebx"
-                      value="220 X 220"
-                    /><label for="220" class="lbl-redio">220 X 220</label>
-                  </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeBed"
-                      id="300"
-                      class="hidebx"
-                      value="300 X 300"
-                    /><label for="300" class="lbl-redio">300 X 300</label>
-                  </div>
+                  {% for bed in bed_size %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeBed"
-                      id="440"
+                      name="{{ bed.field_name }}"
+                      id="{{ bed.field_name }}_{{ bed.title }}"
                       class="hidebx"
-                      value="440 X 440"
-                    /><label for="440" class="lbl-redio">440 X 440</label>
+                      value="{{ bed.title }}"
+                    /><label for="{{ bed.field_name }}_{{ bed.title }}" class="lbl-redio">{{ bed.title }}</label>
                   </div>
-                  <div class="col">
-                    <input
-                      type="radio"
-                      name="productTypeBed"
-                      id="660"
-                      class="hidebx"
-                      value="600 X 600"
-                    /><label for="660" class="lbl-redio">600 X 600</label>
-                  </div>
+                  {% if bed.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ bed.field_name }}" + '_' + "{{ bed.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
+                  {% endfor %}
                 </div>
 
                 <!-- Height -->
@@ -544,23 +452,9 @@
                     <select
                       class="form-select"
                       aria-label="Default select example"
+                      id = "h_select"
                     >
-                      <option value="1">150</option>
-                      <option value="2">160</option>
-                      <option value="3">170</option>
-                      <option value="4">180</option>
-                      <option value="5">190</option>
-                      <option value="6">200</option>
-                      <option value="7">210</option>
-                      <option value="8">220</option>
-                      <option value="9">230</option>
-                      <option value="10">240</option>
-                      <option value="11">250</option>
-                      <option value="12">260</option>
-                      <option value="13">270</option>
-                      <option value="14">280</option>
-                      <option value="15">290</option>
-                      <option value="15">300</option>
+                      {% for h in height %}{% for bed in bed_size %}{% if bed.id == 1 and bed.title == h.bed_size %}<option value="{{ h.title }}">{{ h.title }}</option>{% endif %} {% endfor %} {% endfor %}
                     </select>
                   </div>
                 </div>
@@ -570,24 +464,24 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Nozzel</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeNozzel"
-                      id="Duel"
-                      class="hidebx"
-                      value=""
-                    /><label for="Duel" class="lbl-redio">Duel</label>
-                  </div>
+                  {% for noz in nozzle %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeNozzel"
-                      id="Single"
+                      name="{{ noz.field_name }}"
+                      id="{{ noz.field_name }}_{{ noz.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="Single" class="lbl-redio">Single</label>
+                      value="{{ noz.title }}"
+                    /><label for="{{ noz.field_name }}_{{ noz.title }}" class="lbl-redio">{{ noz.title }}</label>
                   </div>
+                  {% if noz.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ noz.field_name }}" + '_' + "{{ noz.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
+                  {% endfor %}
                 </div>
 
                 <!-- Display -->
@@ -595,35 +489,24 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Display</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeDisplay"
-                      id="Touch"
-                      class="hidebx"
-                      value=""
-                    /><label for="Touch" class="lbl-redio">Touch</label>
-                  </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeDisplay"
-                      id="Knob"
-                      class="hidebx"
-                      value=""
-                    /><label for="Knob" class="lbl-redio">Knob</label>
-                  </div>
+                  {% for dis in display %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeDisplay"
-                      id="Touch+Knob"
+                      name="{{ dis.field_name }}"
+                      id="{{ dis.field_name }}_{{ dis.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="Touch+Knob" class="lbl-redio"
-                      >Touch + Knob</label
-                    >
+                      value="{{ dis.title }}"
+                    /><label for="{{ dis.field_name }}_{{ dis.title }}" class="lbl-redio">{{ dis.title }}</label>
                   </div>
+                  {% if dis.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ dis.field_name }}" + '_' + "{{ dis.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
+                  {% endfor %}
                 </div>
 
                 <!-- Motor Driver -->
@@ -631,24 +514,17 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Motor Driver</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeMotor"
-                      id="Silent"
-                      class="hidebx"
-                      value=""
-                    /><label for="Silent" class="lbl-redio">Silent</label>
-                  </div>
+                  {% for mot in motor_driver %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeMotor"
-                      id="Normal"
+                      name="{{ mot.field_name }}"
+                      id="{{ mot.field_name }}_{{ mot.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="Normal" class="lbl-redio">Normal</label>
+                      value="{{ mot.title }}"
+                    /><label for="{{ mot.field_name }}_{{ mot.title }}" class="lbl-redio">{{ mot.title }}</label>
                   </div>
+                  {% endfor %}
                 </div>
 
                 <!-- cover -->
@@ -656,24 +532,17 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Cover</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeCover"
-                      id="y1"
-                      class="hidebx"
-                      value=""
-                    /><label for="y1" class="lbl-redio">Yes</label>
-                  </div>
+                  {% for cov in cover %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeCover"
-                      id="n1"
+                      name="{{ cov.field_name }}"
+                      id="{{ cov.field_name }}_{{ cov.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="n1" class="lbl-redio">No</label>
+                      value="{{ cov.title }}"
+                    /><label for="{{ cov.field_name }}_{{ cov.title }}" class="lbl-redio">{{ cov.title }}</label>
                   </div>
+                  {% endfor %}
                 </div>
 
                 <!-- Fillament Chamber -->
@@ -681,24 +550,17 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Fillament Chamber</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeChamber"
-                      id="y2"
-                      class="hidebx"
-                      value=""
-                    /><label for="y2" class="lbl-redio">Yes</label>
-                  </div>
+                  {% for fil_c in filament_chamber %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeChamber"
-                      id="n2"
+                      name="{{ fil_c.field_name }}"
+                      id="{{ fil_c.field_name }}_{{ fil_c.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="n2" class="lbl-redio">No</label>
+                      value="{{ fil_c.title }}"
+                    /><label for="{{ fil_c.field_name }}_{{ fil_c.title }}" class="lbl-redio">{{ fil_c.title }}</label>
                   </div>
+                  {% endfor %}
                 </div>
 
                 <!-- UPS Module -->
@@ -706,24 +568,17 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">UPS Module</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeUPS"
-                      id="y3"
-                      class="hidebx"
-                      value=""
-                    /><label for="y3" class="lbl-redio">Yes</label>
-                  </div>
+                  {% for ups in ups_module %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeUPS"
-                      id="n3"
+                      name="{{ ups.field_name }}"
+                      id="{{ ups.field_name }}_{{ ups.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="n3" class="lbl-redio">No</label>
+                      value="{{ ups.title }}"
+                    /><label for="{{ ups.field_name }}_{{ ups.title }}" class="lbl-redio">{{ ups.title }}</label>
                   </div>
+                  {% endfor %}
                 </div>
 
                 <!-- Auto Bed Leveling -->
@@ -731,24 +586,17 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Auto Bed Leveling</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeABL"
-                      id="y4"
-                      class="hidebx"
-                      value=""
-                    /><label for="y4" class="lbl-redio">Yes</label>
-                  </div>
+                  {% for abl in abls %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeABL"
-                      id="n4"
+                      name="{{ abl.field_name }}"
+                      id="{{ abl.field_name }}_{{ abl.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="n4" class="lbl-redio">No</label>
+                      value="{{ abl.title }}"
+                    /><label for="{{ abl.field_name }}_{{ abl.title }}" class="lbl-redio">{{ abl.title }}</label>
                   </div>
+                  {% endfor %}
                 </div>
 
                 <!-- Wifi Connectivity -->
@@ -756,24 +604,17 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Wifi Connectivity</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeWifi"
-                      id="y5"
-                      class="hidebx"
-                      value=""
-                    /><label for="y5" class="lbl-redio">Yes</label>
-                  </div>
+                  {% for wf in wifi %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeWifi"
-                      id="n5"
+                      name="{{ wf.field_name }}"
+                      id="{{ wf.field_name }}_{{ wf.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="n5" class="lbl-redio">No</label>
+                      value="{{ wf.title }}"
+                    /><label for="{{ wf.field_name }}_{{ wf.title }}" class="lbl-redio">{{ wf.title }}</label>
                   </div>
+                  {% endfor %}
                 </div>
 
                 <!-- Fillament -->
@@ -781,33 +622,17 @@
                   <div class="col-3 offset-md-1">
                     <span class="productName">Fillament</span>
                   </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeFillament"
-                      id="1kg"
-                      class="hidebx"
-                      value=""
-                    /><label for="1kg" class="lbl-redio">1kg</label>
-                  </div>
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="productTypeFillament"
-                      id="2kg"
-                      class="hidebx"
-                      value=""
-                    /><label for="2kg" class="lbl-redio">2kg</label>
-                  </div>
+                  {% for fil_q in filament_quantity %}
                   <div class="col">
                     <input
                       type="radio"
-                      name="productTypeFillament"
-                      id="3kg"
+                      name="{{ fil_q.field_name }}"
+                      id="{{ fil_q.field_name }}_{{ fil_q.title }}"
                       class="hidebx"
-                      value=""
-                    /><label for="3kg" class="lbl-redio">3kg</label>
+                      value="{{ fil_q.title }}"
+                    /><label for="{{ fil_q.field_name }}_{{ fil_q.title }}" class="lbl-redio">{{ fil_q.title }}</label>
                   </div>
+                  {% endfor %}
                 </div>
               </div>
 
@@ -840,4 +665,62 @@
 {% endblock content %}
 
 {% block js %}
+    <script type="text/javascript">
+    $(document).ready(function() {
+        //$("#Knob").prop("checked", true);
+        {% for bed in bed_size %}
+            var id = "{{ bed.field_name }}" + '_' + "{{ bed.title }}";
+            var  ele = document.getElementById(id);
+            ele.onclick = function (){
+                var selector = document.getElementById('h_select');
+                while (selector.options.length > 0) {
+                    selector.remove(0);
+                }
+                var max_lin = {{ bed.highest_height }};
+                var min_lin = {{ bed.lowest_height }};
+                var bed_s = "{{ bed.title }}";
+                {% for h in height %}
+                var height = {{ h.title }};
+                var bed_s2 = "{{ h.bed_size }}";
+                if(height >= min_lin && height <= max_lin && bed_s2 === bed_s){
+                    const newOption = document.createElement('option');
+                    const optionText = document.createTextNode('{{ h.title }}');
+                    newOption.appendChild(optionText);
+                    newOption.setAttribute('value','{{ h.title }}');
+                    selector.appendChild(newOption);
+                }
+                {% endfor %}
+            }
+        {% endfor %}
+        var val = document.querySelectorAll('[name="productTypeDisplay"]');
+        for(var i = 0; i < val.length; i++){
+            if(val[i].checked){
+                alert(val[i].value);
+            }
+        }
+    });
+    </script>
+    <script type="text/javascript">
+
+    </script>
+    <script type="text/javascript">
+    var save_data = function(){
+        $.ajax({
+            url: "",
+            method: 'GET',
+            dataType : "json",
+            data: {
+
+            },
+            success: function(response){
+
+            },
+            error: function(error){
+                console.log(error);
+                console.log("error");
+            }
+        });
+    }
+    </script>
+
 {% endblock js %}

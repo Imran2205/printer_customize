@@ -14,14 +14,36 @@ from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import BestOffers, ProfileInfo
+from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, FilamentChamber, FilamentQuantity, Height, MotorDriver, Nozzle, UPSModule, WiFi
 from django.contrib.auth.decorators import login_required
 
 
 def home(request):
     best_offers = BestOffers.objects.all()
+    abls = ABL.objects.all()
+    bed_size = BedSize.objects.all()
+    cover = Covered.objects.all()
+    display = Display.objects.all()
+    filament_chamber = FilamentChamber.objects.all()
+    filament_quantity = FilamentQuantity.objects.all()
+    height = Height.objects.all()
+    motor_driver = MotorDriver.objects.all()
+    nozzle = Nozzle.objects.all()
+    ups_module = UPSModule.objects.all()
+    wifi = WiFi.objects.all()
     context = {
-        'best_offers': best_offers
+        'best_offers': best_offers,
+        'abls': abls,
+        'bed_size': bed_size,
+        'cover': cover,
+        'display': display,
+        'filament_chamber': filament_chamber,
+        'filament_quantity': filament_quantity,
+        'height': height,
+        'motor_driver': motor_driver,
+        'nozzle': nozzle,
+        'ups_module': ups_module,
+        'wifi': wifi
     }
     return render(request, 'home/home.html', context)
 
@@ -116,3 +138,18 @@ def dashboard(request):
     context = {
     }
     return render(request, 'home/dashboard.html', context)
+
+def ajax_form_save(request):
+    if request.method == "GET" and request.is_ajax():
+        from_val = request.GET.get('from', None)
+        to_val = request.GET.get('to', None)
+        if from_val and to_val:
+            data = reserve_balances_rates.objects.filter(Q(title=from_val) | Q(title=to_val)).values()
+        else:
+            data = reserve_balances_rates.objects.all().values()
+        data2 = conversion_rate.objects.all().values()
+        res = list(data)
+        res2 = list(data2)
+        #print(res)
+        return JsonResponse({"reserves": res, "convert": res2}, status=200)
+    return JsonResponse({"success": False}, status=400)

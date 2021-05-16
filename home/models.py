@@ -28,24 +28,24 @@ order_status = [
 ]
 
 nozzles = [
-    ('single', 'Single'),
-    ('double', 'Double'),
+    ('Single', 'Single'),
+    ('Double', 'Double'),
 ]
 
 display = [
-    ('touch', 'Touch'),
-    ('knob', 'Knob'),
-    ('touch+knob', 'Touch + Knob'),
+    ('Touch', 'Touch'),
+    ('Knob', 'Knob'),
+    ('Touch + Knob', 'Touch + Knob'),
 ]
 
 motor_driver = [
-    ('normal', 'Normal'),
-    ('silent', 'Silent'),
+    ('Normal', 'Normal'),
+    ('Silent', 'Silent'),
 ]
 
 yes_or_no = [
-    ('no', 'No'),
-    ('yes', 'Yes'),
+    ('No', 'No'),
+    ('Yes', 'Yes'),
 ]
 
 filament_q = [
@@ -55,11 +55,11 @@ filament_q = [
 ]
 
 bed_size = [
-    ('220x220', '220x220'),
-    ('300x300', '300x300'),
-    ('400x400', '400x400'),
-    ('440x440', '440x440'),
-    ('600x600', '600x600'),
+    ('220 X 220', '220 X 220'),
+    ('300 X 300', '300 X 300'),
+    ('400 X 400', '400 X 400'),
+    ('440 X 440', '440 X 440'),
+    ('600 X 600', '600 X 600'),
 ]
 
 height = [
@@ -161,6 +161,7 @@ class BedSize(models.Model):
     price = models.IntegerField()
     lowest_height = models.IntegerField()
     highest_height = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="bed_size")
 
     def __str__(self):
         return self.title
@@ -173,6 +174,7 @@ class Height(models.Model):
     title = models.CharField(max_length=100, choices=height, default='200')
     bed_size = models.CharField(max_length=100, choices=bed_size, default='220x220')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="height")
 
     def __str__(self):
         return self.title
@@ -184,6 +186,7 @@ class Height(models.Model):
 class Nozzle(models.Model):
     title = models.CharField(max_length=100, choices=nozzles, default='single')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="nozzle")
 
     def __str__(self):
         return self.title
@@ -195,6 +198,7 @@ class Nozzle(models.Model):
 class Display(models.Model):
     title = models.CharField(max_length=100, choices=display, default='knob')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="display")
 
     def __str__(self):
         return self.title
@@ -206,6 +210,7 @@ class Display(models.Model):
 class UPSModule(models.Model):
     title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="ups")
 
     def __str__(self):
         return self.title
@@ -217,6 +222,7 @@ class UPSModule(models.Model):
 class MotorDriver(models.Model):
     title = models.CharField(max_length=100, choices=motor_driver, default='normal')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="motor_driver")
 
     def __str__(self):
         return self.title
@@ -228,6 +234,7 @@ class MotorDriver(models.Model):
 class Covered(models.Model):
     title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="cover")
 
     def __str__(self):
         return self.title
@@ -239,6 +246,7 @@ class Covered(models.Model):
 class ABL(models.Model):
     title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="abl")
 
     def __str__(self):
         return self.title
@@ -250,6 +258,7 @@ class ABL(models.Model):
 class WiFi(models.Model):
     title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="wifi")
 
     def __str__(self):
         return self.title
@@ -261,6 +270,7 @@ class WiFi(models.Model):
 class FilamentChamber(models.Model):
     title = models.CharField(max_length=100, choices=yes_or_no, default='no')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="filament_chamber")
 
     def __str__(self):
         return self.title
@@ -272,6 +282,7 @@ class FilamentChamber(models.Model):
 class FilamentQuantity(models.Model):
     title = models.CharField(max_length=100, choices=filament_q, default='1kg')
     price = models.IntegerField()
+    field_name = models.CharField(max_length=100, default="filament_quantity")
 
     def __str__(self):
         return self.title
