@@ -27,7 +27,11 @@
                     <span class="header__info-price">Price: {{ offer.price }} BDT</span>
 
                     <a href="#" class="buton buton-white">Shop now</a>
+                    {% if user.is_authenticated %}
                     <a href="#" class="buton buton-outline">customize</a>
+                    {% else %}
+                    <a href="{% url 'login_register' log_or_reg='login' %}" class="buton buton-outline">customize</a>
+                    {% endif %}
                   </div>
                   <div class="main__right">
                     <div class="main__img-container">
@@ -81,7 +85,11 @@
                   <span>3D Printer</span>
                   <h2>Geo-Z</h2>
                   <a href="#">Shop Now</a>
+                  {% if user.is_authenticated %}
                   <a href="#">customize</a>
+                  {% else %}
+                  <a href="{% url 'login_register' log_or_reg='login' %}">customize</a>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -94,7 +102,11 @@
                   <span>3D Printer</span>
                   <h2>Chiron</h2>
                   <a href="#">Shop Now</a>
+                  {% if user.is_authenticated %}
                   <a href="#">customize</a>
+                  {% else %}
+                  <a href="{% url 'login_register' log_or_reg='login' %}">customize</a>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -407,6 +419,7 @@
       </div>
 
       <!-- Customizer -->
+      {% if user.is_authenticated %}
       <div class="p_container">
         <section class="customizer">
           <div class="topTitle">
@@ -453,6 +466,7 @@
                       class="form-select"
                       aria-label="Default select example"
                       id = "h_select"
+                      onchange = "update_price()"
                     >
                       {% for h in height %}{% for bed in bed_size %}{% if bed.id == 1 and bed.title == h.bed_size %}<option value="{{ h.title }}">{{ h.title }}</option>{% endif %} {% endfor %} {% endfor %}
                     </select>
@@ -524,6 +538,13 @@
                       value="{{ mot.title }}"
                     /><label for="{{ mot.field_name }}_{{ mot.title }}" class="lbl-redio">{{ mot.title }}</label>
                   </div>
+                  {% if mot.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ mot.field_name }}" + '_' + "{{ mot.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
                   {% endfor %}
                 </div>
 
@@ -542,6 +563,13 @@
                       value="{{ cov.title }}"
                     /><label for="{{ cov.field_name }}_{{ cov.title }}" class="lbl-redio">{{ cov.title }}</label>
                   </div>
+                  {% if cov.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ cov.field_name }}" + '_' + "{{ cov.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
                   {% endfor %}
                 </div>
 
@@ -560,6 +588,13 @@
                       value="{{ fil_c.title }}"
                     /><label for="{{ fil_c.field_name }}_{{ fil_c.title }}" class="lbl-redio">{{ fil_c.title }}</label>
                   </div>
+                  {% if fil_c.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ fil_c.field_name }}" + '_' + "{{ fil_c.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;save_form
+                  </script>
+                  {% endif %}
                   {% endfor %}
                 </div>
 
@@ -578,6 +613,13 @@
                       value="{{ ups.title }}"
                     /><label for="{{ ups.field_name }}_{{ ups.title }}" class="lbl-redio">{{ ups.title }}</label>
                   </div>
+                  {% if ups.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ ups.field_name }}" + '_' + "{{ ups.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
                   {% endfor %}
                 </div>
 
@@ -596,6 +638,13 @@
                       value="{{ abl.title }}"
                     /><label for="{{ abl.field_name }}_{{ abl.title }}" class="lbl-redio">{{ abl.title }}</label>
                   </div>
+                  {% if abl.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ abl.field_name }}" + '_' + "{{ abl.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
                   {% endfor %}
                 </div>
 
@@ -614,6 +663,13 @@
                       value="{{ wf.title }}"
                     /><label for="{{ wf.field_name }}_{{ wf.title }}" class="lbl-redio">{{ wf.title }}</label>
                   </div>
+                  {% if wf.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ wf.field_name }}" + '_' + "{{ wf.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
                   {% endfor %}
                 </div>
 
@@ -632,6 +688,13 @@
                       value="{{ fil_q.title }}"
                     /><label for="{{ fil_q.field_name }}_{{ fil_q.title }}" class="lbl-redio">{{ fil_q.title }}</label>
                   </div>
+                  {% if fil_q.id == 1 %}
+                  <script type="text/javascript">
+                    var id = "{{ fil_q.field_name }}" + '_' + "{{ fil_q.title }}";
+                    var  ele = document.getElementById(id);
+                    ele.checked = true;
+                  </script>
+                  {% endif %}
                   {% endfor %}
                 </div>
               </div>
@@ -645,7 +708,7 @@
                     alt="product name"
                   />
                   <h3 class="productPicInfo-name">Product Name</h3>
-                  <h4 class="productPicInfo-price">10,000 BDT</h4>
+                  <h4 class="productPicInfo-price" id="final_price">0 BDT</h4>
                   <a href="#" class="buttonSmall buttonSmall-outlineDark"
                     >learn more</a
                   >
@@ -654,11 +717,23 @@
             </div>
             <!-- submit button -->
             <div class="submitbtn" style="margin-top: 5rem;">
-              <input type="submit" value="confirm">
+              <input type="submit" value="confirm" onclick="save_data()">
             </div>
           </div>
         </section>
       </div>
+      {% else %}
+      <div class="p_container">
+        <section class="customizer">
+          <div class="topTitle">
+            <h4 class="title">
+              <span class="subTitle">Make your Own</span>
+              <span class="mainTitle">Please Login to Customize 3D Printer</span>
+            </h4>
+          </div>
+        </section>
+      </div>
+      {% endif %}
     </main>
     {% include "home/footer.html" %}
 
@@ -690,30 +765,186 @@
                     selector.appendChild(newOption);
                 }
                 {% endfor %}
+                update_price();
             }
         {% endfor %}
-        var val = document.querySelectorAll('[name="productTypeDisplay"]');
+        update_price();
+        var val = document.querySelectorAll('[type="radio"]');
+
         for(var i = 0; i < val.length; i++){
-            if(val[i].checked){
-                alert(val[i].value);
+            var id = val[i].id;
+            id = id.slice(0,8);
+            if(id != 'bed_size'){
+                val[i].onclick = function (){
+                    update_price();
+                }
             }
         }
     });
+    function update_price(){
+        var price = 0.0;
+        var val = document.querySelectorAll('[type="radio"]');
+        var selected_bed = '';
+        var selected_abl = '';
+        var selected_cover = '';
+        var selected_display = '';
+        var selected_filament_chamber = '';
+        var selected_filament_quantity = '';
+        var selected_height = '';
+        var selected_motor_driver = '';
+        var selected_nozzle = '';
+        var selected_ups = '';
+        var selected_wifi = '';
+        for(var i = 0; i < val.length; i++){
+            if(val[i].checked){
+                for(var j = 0; j < 1; j++){
+                    {% for bed in bed_size %}
+                    var id = "{{ bed.field_name }}" + '_' + "{{ bed.title }}";
+                    if(id === val[i].id){
+                        selected_bed = val[i].value;
+                        price = price + {{ bed.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in abls %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_abl = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in cover %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_cover = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in display %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_display = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in filament_chamber %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_filament_chamber = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in filament_quantity %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_filament_quantity = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in motor_driver %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_motor_driver = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in nozzle %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_nozzle = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in ups_module %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_ups = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+                for(var j = 0; j < 1; j++){
+                    {% for ele in wifi %}
+                    var id = "{{ ele.field_name }}" + '_' + "{{ ele.title }}";
+                    if(id === val[i].id){
+                        selected_wifi = val[i].value;
+                        price = price + {{ ele.price }};
+                        break;
+                    }
+                    {% endfor %}
+                }
+
+            }
+        }
+        var height = document.getElementById('h_select').value;
+        for(var j = 0; j < 1; j++){
+            {% for h in height %}
+            var height2 = "{{ h.title }}";
+            var bed_size_2 = "{{ h.bed_size }}";
+            if(height2 === height){
+                if(bed_size_2 === selected_bed){
+                    selected_height = {{ h.title }};
+                    price = price + {{ h.price }};
+                    break;
+                }
+            }
+            {% endfor %}
+        }
+        var out = "" + price + " BDT";
+        document.getElementById("final_price").innerHTML = out;
+        return [price, selected_abl, selected_bed, selected_cover, selected_display, selected_filament_chamber, selected_filament_quantity, selected_height, selected_motor_driver, selected_nozzle, selected_ups, selected_wifi];
+    }
     </script>
     <script type="text/javascript">
 
     </script>
     <script type="text/javascript">
     var save_data = function(){
+        var returned_value = update_price();
         $.ajax({
-            url: "",
+            url: "{% url 'save_form' %}",
             method: 'GET',
             dataType : "json",
             data: {
-
+                'price': returned_value[0],
+                'abls': returned_value[1],
+                'bed_size': returned_value[2],
+                'cover': returned_value[3],
+                'display': returned_value[4],
+                'filament_chamber': returned_value[5],
+                'filament_quantity': returned_value[6],
+                'height': returned_value[7],
+                'motor_driver': returned_value[8],
+                'nozzle': returned_value[9],
+                'ups_module': returned_value[10],
+                'wifi': returned_value[11]
             },
             success: function(response){
-
+                alert("success");
             },
             error: function(error){
                 console.log(error);

@@ -13,4 +13,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('logout/', auth_views.LogoutView.as_view(template_name='home/home.html'), name='logout'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
+    path('ajax/get_info_update', views.ajax_form_save, name = 'save_form'),
 ]
