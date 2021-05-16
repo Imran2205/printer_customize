@@ -707,11 +707,11 @@
                     src="{% static 'home/images/3d_printer.png' %}"
                     alt="product name"
                   />
-                  <h3 class="productPicInfo-name">Product Name</h3>
+                  <h3 class="productPicInfo-name">Customized 3D printer</h3>
                   <h4 class="productPicInfo-price" id="final_price">0 BDT</h4>
-                  <a href="#" class="buttonSmall buttonSmall-outlineDark"
+                  <!--<a href="#" class="buttonSmall buttonSmall-outlineDark"
                     >learn more</a
-                  >
+                  >-->
                 </div>
               </div>
             </div>
@@ -944,7 +944,8 @@
                 'wifi': returned_value[11]
             },
             success: function(response){
-                alert("success");
+                alert("Successfully placed your order");
+                location.href="/";
             },
             error: function(error){
                 console.log(error);
