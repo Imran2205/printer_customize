@@ -15,7 +15,7 @@
       <div class="top-text">
         <h1 class="welcome-text">
           <span class="welcome">Welcome, </span>
-          <span class="uName">Rakibul</span>
+          <span class="uName">{{ user.first_name }} {{ user.last_name }}</span>
         </h1>
       </div>
 
@@ -27,6 +27,7 @@
           <div class="bottom-text">
             <h2 class="order-text">Purchase History</h2>
           </div>
+          {% for order in orders %}
           <div class="product-card">
             <!-- product image -->
             <div class="product-card__img">
@@ -34,7 +35,7 @@
             </div>
             <div class="product-card__info">
               <!-- product title -->
-              <h4 class="product-card__title">Product name</h4>
+              <h4 class="product-card__title">Order ID: {{ order.order_id_no }}</h4>
               <!-- about product -->
               <p class="product-card__text">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -51,7 +52,7 @@
               <!-- product Price -->
               <h5 class="product-card__price">
                 <span class="title-price">Price:</span>
-                <span class="number-price">23,000</span>
+                <span class="number-price">{{ order.price }}</span>
                 <span class="bdt">BDT</span>
               </h5>
               <!-- product Delivary Status -->
@@ -70,53 +71,10 @@
               <a href="#" class="btn-text">Learn More</a>
             </div>
           </div>
-          <!-- 2 -->
-          <div class="product-card">
-            <!-- product image -->
-            <div class="product-card__img">
-              <img src="{% static 'home/images/product-photo.jpg' %}" alt="" />
-            </div>
-            <div class="product-card__info">
-              <!-- product title -->
-              <h4 class="product-card__title">Product name</h4>
-              <!-- about product -->
-              <p class="product-card__text">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Provident omnis sit veniam! Labore numquam corporis quidem
-                dolorum officiis vitae, veniam maiores voluptates amet
-                reprehenderit! Consectetur reprehenderit totam ipsum eveniet
-                pariatur.
-              </p>
-              <!-- product Quantity -->
-              <h5 class="product-card__quantity">
-                <span class="title-quantity">Quantity:</span>
-                <span class="number" style="margin-left: 5px">1</span>
-              </h5>
-              <!-- product Price -->
-              <h5 class="product-card__price">
-                <span class="title-price">Price:</span>
-                <span class="number-price">23,000</span>
-                <span class="bdt">BDT</span>
-              </h5>
-              <!-- product Delivary Status -->
-              <h5 class="product-card__status">
-                <span class="title-status">Status:</span>
-              </h5>
-              <div class="step-progressBar">
-                <div class="container">
-                  <ul class="progressbar">
-                    <li class="active">Confirmed</li>
-                    <li>Processing</li>
-                    <li>Delivered</li>
-                  </ul>
-                </div>
-              </div>
-              <a href="#" class="btn-text">Learn More</a>
-            </div>
-          </div>
-          <div class="see-more">
+          {% endfor %}
+          <!-- <div class="see-more">
             <a href="#" class="see-more__btn">See More</a>
-          </div>
+          </div> -->
         </div>
 
         <!-- User Profile -->
@@ -126,23 +84,23 @@
           </div>
           <div class="userProfile">
             <div class="img-container">
-              <img src="{% static 'home/images/pro_img.jpg' %}" alt="Profile Img" />
+              <img src="{% static 'home/images/user-profile.png' %}" alt="Profile Img" />
             </div>
             <div class="userProfile__name">
               <h3 class="name">
-                <span class="firstName">Rakibul</span>
-                <span class="LastName">Hasan</span>
+                <span class="firstName">{{ user.first_name }}</span>
+                <span class="LastName">{{ user.last_name }}</span>
               </h3>
             </div>
             <div class="userProfile__username">
               <h5 class="username">
-                <i class="fas fa-at" style="margin-right: 5px"></i>rifatdam
+                <i class="fas fa-at" style="margin-right: 5px"></i>{{ user.username }}
               </h5>
             </div>
             <div class="userProfile__email">
               <h5 class="email">
                 <i class="fas fa-envelope icolor" style="margin-right: 10px"></i
-                >rifat20089@hotmail.com
+                >{{ user.email }}
               </h5>
             </div>
             <div class="userProfile__phone">
@@ -151,7 +109,7 @@
                   class="fas fa-phone-alt icolor"
                   style="margin-right: 10px"
                 ></i
-                >01625842916
+                >{% for profile in profiles %}{% if profile.user == user %}{{ profile.phone }}{% endif %}{% endfor %}
               </h5>
             </div>
             <div class="userProfile__adderss">
@@ -160,7 +118,7 @@
                   class="fas fa-map-marker-alt icolor"
                   style="margin-right: 10px"
                 ></i
-                >262/1/A, Ibrahimpur, Mirpur 14, Dhaka-1216
+                >{% for profile in profiles %}{% if profile.user == user %}{{ profile.address }}, {{ profile.address2 }}, {{ profile.city }}, {{ profile.state }}-{{ profile.zip }}{% endif %}{% endfor %}
               </h5>
             </div>
           </div>

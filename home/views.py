@@ -18,7 +18,7 @@ from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, Fil
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import datetime
-
+import shortuuid
 
 def home(request):
     best_offers = BestOffers.objects.all()
@@ -60,6 +60,7 @@ def login_register(request, log_or_reg='login'):
             user.save()
             phone = phone_form.save(commit = False)
             phone.user = user
+            phone.user_id_no = shortuuid.uuid(name = user.username)
             phone.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your account'
@@ -137,11 +138,11 @@ def activate(request, uidb64, token):
 
 @login_required
 def dashboard(request):
-    order = Orders.object.filter(user = request.user)
-    profile = ProfileInfo.object.filter(user = request.user)
+    orders = Orders.objects.filter(user = request.user)
+    profiles = ProfileInfo.objects.filter(user = request.user)
     context = {
-        'order': order,
-        'profile': profile
+        'orders': orders,
+        'profiles': profiles
     }
     return render(request, 'home/dashboard.html', context)
 
@@ -177,6 +178,8 @@ def ajax_form_save(request):
             instance.display = display
             instance.motor_driver_type = motor_driver
             instance.save()
+            instance.order_id_no = shortuuid.uuid(name = str(instance.id))
+            instance.save(update_fields=['order_id_no'])
         except Exception as e:
             return JsonResponse({"success": False}, status=400)
         return JsonResponse({}, status=200)

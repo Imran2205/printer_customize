@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
+import uuid
+from django.utils.http import int_to_base36
+import shortuuid
 
 stat2 = [
     ('not_verified', 'not_verified'),
@@ -47,7 +50,7 @@ yes_or_no = [
     ('No', 'No'),
     ('Yes', 'Yes'),
 ]
-
+uuid.uuid4
 filament_q = [
     ('1kg', '1kg'),
     ('2kg', '2kg'),
@@ -75,6 +78,18 @@ height = [
     ('650', '650'),
     ('700', '700'),
 ]
+
+USER_ID_LENGTH = 8
+ID_LENGTH = 10
+
+
+def id_gen_user():
+    return int_to_base36(uuid.uuid4().int)[:USER_ID_LENGTH]
+
+
+def id_gen_order():
+    return int_to_base36(uuid.uuid4().int)[:ID_LENGTH]
+
 
 class BestOffers(models.Model):
     title = models.CharField(max_length=100)
@@ -115,6 +130,7 @@ class BestOffers(models.Model):
 
 class ProfileInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_id_no = models.CharField(max_length=100, unique=True, default=shortuuid.uuid)
     address = models.CharField(max_length=200)
     address2 = models.CharField(max_length=200)
     city = models.CharField(max_length=50)
@@ -132,6 +148,7 @@ class ProfileInfo(models.Model):
 
 class Orders(models.Model):
     title = models.CharField(max_length=100)
+    order_id_no = models.CharField(max_length=100, unique=True, default=shortuuid.uuid)
     order_time = models.DateTimeField(default=timezone.now)
     bed_size = models.CharField(max_length=100, choices=bed_size, default='220x220')
     height = models.CharField(max_length=100, choices=height, default='200')
