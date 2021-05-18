@@ -137,7 +137,11 @@ def activate(request, uidb64, token):
 
 @login_required
 def dashboard(request):
+    order = Orders.object.filter(user = request.user)
+    profile = ProfileInfo.object.filter(user = request.user)
     context = {
+        'order': order,
+        'profile': profile
     }
     return render(request, 'home/dashboard.html', context)
 
