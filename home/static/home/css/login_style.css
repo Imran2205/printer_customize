@@ -139,6 +139,41 @@ form.sign-up-form {
   font-weight: 100;
 }
 
+
+
+.input-field-reg {
+  max-width: 380px;
+  width: 100%;
+  height: 40px;
+  background-color: var(--colorPrimatySuperLight);
+  margin: 10px 0;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  padding: 0 0.44rem;
+}
+
+.input-field-reg i {
+  text-align: center;
+  line-height: 40px;
+  color: var(--colorPrimaty);
+  font-size: 1.7rem;
+}
+
+.input-field-reg input {
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-size: 1.4rem;
+  color: var(--colorPrimaty);
+}
+
+.input-field-reg input::placeholder {
+  color: var(--colorPrimatyVeryLight);
+  font-weight: 100;
+}
+
 .btn {
   width: 150px;
   height: 50px;
