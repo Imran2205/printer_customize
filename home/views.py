@@ -45,7 +45,8 @@ def home(request):
         'motor_driver': motor_driver,
         'nozzle': nozzle,
         'ups_module': ups_module,
-        'wifi': wifi
+        'wifi': wifi,
+        'title': 'Machronics Geo|Customize your 3d printer'
     }
     return render(request, 'home/home.html', context)
 
@@ -142,7 +143,8 @@ def dashboard(request):
     profiles = ProfileInfo.objects.filter(user = request.user)
     context = {
         'orders': orders,
-        'profiles': profiles
+        'profiles': profiles,
+        'title': 'User Dashboard'
     }
     return render(request, 'home/dashboard.html', context)
 

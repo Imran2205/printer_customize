@@ -38,11 +38,11 @@
               <h4 class="product-card__title">Order ID: {{ order.order_id_no }}</h4>
               <!-- about product -->
               <p class="product-card__text">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Provident omnis sit veniam! Labore numquam corporis quidem
-                dolorum officiis vitae, veniam maiores voluptates amet
-                reprehenderit! Consectetur reprehenderit totam ipsum eveniet
-                pariatur.
+                Product description: Bed Size({{ order.bed_size }} square mm), Height({{ order.height }} mm), {{ order.nozzle }} Nozzle,
+                Display type({{order.display}}), Motor driver type({{ order.motor_driver_type }}), Includes cover({{ order.cover }}),
+                Includes filament chamber({{ order.filament_chamber }}), Includes UPS module({{ order.ups_module }}),
+                Includes Auto Bed Leveling feature({{ order.abl }}), Includes Wifi conectivity({{ order.wifi }}),
+                Filament quantity({{ order.filament }}).
               </p>
               <!-- product Quantity -->
               <h5 class="product-card__quantity">
@@ -62,9 +62,27 @@
               <div class="step-progressBar">
                 <div class="container">
                   <ul class="progressbar">
+                    {% if order.order_status == 'pending' %}
+                    <li class="">Confirmed</li>
+                    <li class="">Processing</li>
+                    <li class="">Delivered</li>
+                    {% elif order.order_status == 'confirmed' %}
                     <li class="active">Confirmed</li>
-                    <li>Processing</li>
-                    <li>Delivered</li>
+                    <li class="">Processing</li>
+                    <li class="">Delivered</li>
+                    {% elif order.order_status == 'processing' %}
+                    <li class="active">Confirmed</li>
+                    <li class="active">Processing</li>
+                    <li class="">Delivered</li>
+                    {% elif order.order_status == 'delivered' %}
+                    <li class="active">Confirmed</li>
+                    <li class="active">Processing</li>
+                    <li class="active">Delivered</li>
+                    {% else %}
+                    <li class="">Confirmed</li>
+                    <li class="">Processing</li>
+                    <li class="">Delivered</li>
+                    {% endif %}
                   </ul>
                 </div>
               </div>
