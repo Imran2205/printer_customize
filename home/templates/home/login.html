@@ -14,7 +14,7 @@
             integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
             crossorigin="anonymous"
         />
-        <link rel="shortcut icon" type="image/png" href="./img/favicon.ico" />
+        <link rel="shortcut icon" type="image/png" href="{% static 'home/images/favicon.ico' %}"/>
         <title>Login</title>
         <link rel="stylesheet" href="{% static 'home/css/login_style.css' %}"/>
     </head>
@@ -98,7 +98,7 @@
                                     {{ error|escape }}
                                 {% endfor %}
                             </div>
-                            <div class="input-field">
+                            <div class="input-field-reg">
                                 <i class="fas fa-user"></i>
                                 <!--<input type="text" placeholder="First Name" required/>-->
                                 {% render_field user_form.first_name  placeholder="First Name" %}
@@ -118,7 +118,7 @@
                                     <p class="help-block">{{ error }}</p>
                                 {% endfor %}
                             </div>
-                            <div class="input-field">
+                            <div class="input-field-reg">
                                 <i class="fas fa-user"></i>
                                 <!--<input type="text" placeholder="Username" required/>-->
                                 {% render_field user_form.username  placeholder="Username" %}
@@ -128,7 +128,7 @@
                                     <p class="help-block">{{ error }}</p>
                                 {% endfor %}
                             </div>
-                            <div class="input-field">
+                            <div class="input-field-reg">
                                 <i class="fas fa-phone"></i>
                                 <!--<input type="text" placeholder="Phone Number" required/>-->
                                 {% render_field phone_form.phone  placeholder="Phone Number" %}
@@ -138,7 +138,7 @@
                                     <p class="help-block">{{ error }}</p>
                                 {% endfor %}
                             </div>
-                            <div class="input-field">
+                            <div class="input-field-reg">
                                 <i class="fas fa-envelope"></i>
                                 <!--<input type="email" placeholder="Email" required/>-->
                                 {% render_field user_form.email  placeholder="Email" %}
@@ -149,7 +149,7 @@
                                 {% endfor %}
                             </div>
 
-                            <div class="input-field">
+                            <div class="input-field-reg">
                                 <i class="fas fa-lock"></i>
                                 <!--<input type="password" placeholder="Password" required/>-->
                                 {% render_field user_form.password1  placeholder="Password" %}
@@ -159,7 +159,7 @@
                                     <p class="help-block">{{ error }}</p>
                                 {% endfor %}
                             </div>
-                            <div class="input-field">
+                            <div class="input-field-reg">
                                 <i class="fas fa-lock"></i>
                                 <!--<input type="password" placeholder="Confirm Password" required/>-->
                                 {% render_field user_form.password2  placeholder="Confirm password" %}
@@ -181,12 +181,14 @@
                 <div class="panel left-panel">
                     {% if user.is_authenticated %}
                         <div class="content">
+                            <a href="{% url 'home' %}" class="back_btn">Back</a>
                             <h3>You are already logged in.</h3>
                             <p>Click here to go to home page.</p>
                             <button class="btn transparent" onclick="location.href='{% url 'home' %}';">Home</button>
                         </div>
                     {% else %}
                         <div class="content">
+                            <a href="{% url 'home' %}" class="back_btn">Back</a>
                             <h3>DOnt Have Account ?</h3>
                             <p>Click the sign up button to create new account</p>
                             <button class="btn transparent" id="sign-up-btn">Sign Up</button>
@@ -201,12 +203,14 @@
                 <div class="panel right-panel">
                     {% if user.is_authenticated %}
                         <div class="content">
+                            <a href="{% url 'home' %}" class="back_btn">Back</a>
                             <h3>You are already logged in.</h3>
                             <p>Click here to go to home page.</p>
                             <button class="btn transparent" onclick="location.href='{% url 'home' %}';">Home</button>
                         </div>
                     {% else %}
                         <div class="content">
+                            <a href="{% url 'home' %}" class="back_btn">Back</a>
                             <h3>Have Account ?</h3>
                             <p>Click the Log in button to continue.</p>
                             <button class="btn transparent" id="sign-in-btn">Log in</button>
