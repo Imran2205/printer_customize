@@ -313,3 +313,16 @@ class Image(models.Model):
 
     def __str__(self):
         return self.offer.title + "_image"
+
+
+class LatestProduct(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+    image_link = models.CharField(max_length=100)
+    product_link = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
