@@ -326,3 +326,16 @@ class LatestProduct(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+
+class OurOwnProduct(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+    image_link = models.CharField(max_length=100)
+    product_link = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)

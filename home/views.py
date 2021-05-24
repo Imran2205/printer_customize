@@ -14,7 +14,7 @@ from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, FilamentChamber, FilamentQuantity, Height, MotorDriver, Nozzle, UPSModule, WiFi, Orders
+from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, FilamentChamber, FilamentQuantity, Height, MotorDriver, Nozzle, UPSModule, WiFi, Orders, LatestProduct, OurOwnProduct
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import datetime
@@ -33,6 +33,8 @@ def home(request):
     nozzle = Nozzle.objects.all()
     ups_module = UPSModule.objects.all()
     wifi = WiFi.objects.all()
+    latest_products = LatestProduct.objects.all()
+    own_products = OurOwnProduct.objects.all()
     context = {
         'best_offers': best_offers,
         'abls': abls,
@@ -46,7 +48,9 @@ def home(request):
         'nozzle': nozzle,
         'ups_module': ups_module,
         'wifi': wifi,
-        'title': 'Machronics Geo|Customize your 3d printer'
+        'title': 'Machronics Geo|Customize your 3d printer',
+        'latest_products': latest_products,
+        'own_products': own_products
     }
     return render(request, 'home/home.html', context)
 

@@ -26,9 +26,9 @@
                     <span class="header__info-feature">- {{ offer.feature3 }}</span>
                     <span class="header__info-price">Price: {{ offer.price }} BDT</span>
 
-                    <a href="#" class="buton buton-white">Shop now</a>
+                    <a href="" class="buton buton-white" onclick="place_known_order('{{ offer.title }}')">Shop now</a>
                     {% if user.is_authenticated %}
-                    <a href="#" class="buton buton-outline">customize</a>
+                    <a href="#link_customize" class="buton buton-outline">customize</a>
                     {% else %}
                     <a href="{% url 'login_register' log_or_reg='login' %}" class="buton buton-outline">customize</a>
                     {% endif %}
@@ -420,7 +420,7 @@
 
       <!-- Customizer -->
       {% if user.is_authenticated %}
-      <div class="p_container">
+      <div class="p_container" id="link_customize">
         <section class="customizer">
           <div class="topTitle">
             <h4 class="title">
@@ -919,12 +919,76 @@
         return [price, selected_abl, selected_bed, selected_cover, selected_display, selected_filament_chamber, selected_filament_quantity, selected_height, selected_motor_driver, selected_nozzle, selected_ups, selected_wifi];
     }
     </script>
-    <script type="text/javascript">
 
-    </script>
     <script type="text/javascript">
     var save_data = function(){
         var returned_value = update_price();
+        $.ajax({
+            url: "{% url 'save_form' %}",
+            method: 'GET',
+            dataType : "json",
+            data: {
+                'price': returned_value[0],
+                'abls': returned_value[1],
+                'bed_size': returned_value[2],
+                'cover': returned_value[3],
+                'display': returned_value[4],
+                'filament_chamber': returned_value[5],
+                'filament_quantity': returned_value[6],
+                'height': returned_value[7],
+                'motor_driver': returned_value[8],
+                'nozzle': returned_value[9],
+                'ups_module': returned_value[10],
+                'wifi': returned_value[11]
+            },
+            success: function(response){
+                alert("Successfully placed your order");
+                location.href="/";
+            },
+            error: function(error){
+                console.log(error);
+                console.log("error");
+            }
+        });
+    }
+    </script>
+
+    <script type="text/javascript">
+    function place_known_order(printer_name){
+        var price = 0;
+        var selected_abl = "";
+        var selected_bed = "";
+        var selected_cover = "";
+        var selected_display = "";
+        var selected_filament_chamber = "";
+        var selected_filament_quantity = "";
+        var selected_height = "";
+        var selected_motor_driver = "";
+        var selected_nozzle = "";
+        var selected_ups = "";
+        var selected_wifi = "";
+        {% for offer in best_offers %}
+        var printer = "{{ offer.title }}";
+        if(printer === printer_name){
+            price = {{ offer.price }};
+            selected_abl = "{{ offer.abl }}";
+            selected_bed = "{{ offer.bed_size }}";
+            selected_cover = "{{ offer.cover }}";
+            selected_display = "{{ offer.display }}";
+            selected_filament_chamber = "{{ offer.filament_chamber }}";
+            selected_filament_quantity = "{{ offer.filament }}";
+            selected_height = "{{ offer.height }}";
+            selected_motor_driver = "{{ offer.motor_driver_type }}";
+            selected_nozzle = "{{ offer.nozzle }}";
+            selected_ups = "{{ offer.ups_module }}";
+            selected_wifi = "{{ offer.wifi }}";
+            save_data_2([price, selected_abl, selected_bed, selected_cover, selected_display, selected_filament_chamber, selected_filament_quantity, selected_height, selected_motor_driver, selected_nozzle, selected_ups, selected_wifi]);
+
+        }
+        {% endfor %}
+    }
+    var save_data_2 = function(get_val){
+        var returned_value = get_val;
         $.ajax({
             url: "{% url 'save_form' %}",
             method: 'GET',
