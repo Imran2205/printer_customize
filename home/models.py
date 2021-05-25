@@ -9,8 +9,15 @@ import shortuuid
 stat2 = [
     ('not_verified', 'not_verified'),
     ('verified', 'verified'),
-    ('pending', 'pending'),
-    ('new', 'new'),
+    ('pending', 'pending')
+]
+
+ocp = [
+    ('Student', 'Student'),
+    ('Start Up', 'Start Up'),
+    ('Job Holder', 'Job Holder'),
+    ('Others', 'Others'),
+    ('N/A', 'N/A')
 ]
 
 DIV = [
@@ -50,7 +57,7 @@ yes_or_no = [
     ('No', 'No'),
     ('Yes', 'Yes'),
 ]
-uuid.uuid4
+
 filament_q = [
     ('1kg', '1kg'),
     ('2kg', '2kg'),
@@ -137,7 +144,8 @@ class ProfileInfo(models.Model):
     state = models.CharField(max_length=100, choices=DIV)
     zip = models.CharField(max_length=20)
     phone = PhoneNumberField()
-    profile_status = models.CharField(max_length=100, choices=stat2, default='new')
+    occupation = models.CharField(max_length=100, choices=ocp, default='N/A')
+    profile_status = models.CharField(max_length=100, choices=stat2, default='not_verified')
 
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -313,6 +321,13 @@ class Image(models.Model):
 
     def __str__(self):
         return self.offer.title + "_image"
+
+class IdentityDoc(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='files/')
+
+    def __str__(self):
+        return self.user.username + "_image"
 
 
 class LatestProduct(models.Model):

@@ -19,13 +19,13 @@ class UserRegisterForm(UserCreationForm):
         fields = ['first_name','last_name','username','email','password1','password2']
 
 
-
-class User_address_form(forms.ModelForm):
-    class Meta:
-        model = ProfileInfo
-        fields = ['address','address2','city','state','zip']
-
-class User_phone_number_form(forms.ModelForm):
+class UserPhoneNumberForm(forms.ModelForm):
     class Meta:
         model = ProfileInfo
         fields = ['phone']
+
+
+class AccountCompleteForm(forms.ModelForm):
+    class Meta:
+        model = ProfileInfo
+        fields = ['address', 'address2', 'city', 'state', 'zip', 'occupation']
