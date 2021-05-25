@@ -1,0 +1,22 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="header" id="header">
+        {% include "home/header.html" %}
+    </div>
+    <div class="c_container">
+      <h1 class="completeProfile__header">Startup Link</h1>
+      <form>
+        <label for="startUp" class="margin-bottom-24">Give Link of your Facebook Page/Website</label>
+        <input type="text" id="startUp" name="startup" class="margin-bottom-24" placeholder="facebook/website Link" required>
+        <input type="submit">
+      </form>
+    </div>
+    {% include "home/footer.html" %}
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

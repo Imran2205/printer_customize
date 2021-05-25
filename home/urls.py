@@ -14,4 +14,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='home/home.html'), name='logout'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
     path('ajax/get_info_update', views.ajax_form_save, name = 'save_form'),
+    path('complete_profile', views.complete_profile, name = 'complete_profile'),
+    path('file_upload', views.file_upload, name='file_upload'),
+    path('link_upload', views.link_upload, name='link_upload'),
+    path('print_order', views.print_order, name='print_order')
 ]

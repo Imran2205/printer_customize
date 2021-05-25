@@ -1,0 +1,22 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="header" id="header">
+        {% include "home/header.html" %}
+    </div>
+    <div class="c_container">
+      <h1 class="completeProfile__header">Upload File</h1>
+      <form>
+        <label for="formFile" class="margin-bottom-24">Upload your Student ID</label>
+        <input class="form-control margin-bottom-24 form-control-lg" id="formFile" type="file" required/>
+        <input type="submit">
+      </form>
+    </div>
+    {% include "home/footer.html" %}
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

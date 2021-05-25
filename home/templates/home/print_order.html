@@ -1,0 +1,129 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="header" id="header">
+        {% include "home/header.html" %}
+    </div>
+    <div class="c_container">
+      <h1 class="completeProfile__header">Upload your 3D model file</h1>
+      <form>
+        <label for="formFile" class="margin-bottom-24">Upload .zip file of your all 3D model</label>
+        <input class="form-control margin-bottom-24 form-control-lg" id="formFile" type="file" />
+
+        <label for="formFile" class="margin-bottom-24">Your requirement</label>
+        <textarea name="Message">Enter your requirement here...</textarea>
+
+        <div class="row selector">
+            <span class="productName">Material</span>
+                <div class="row selector">
+                  <div class="col-2">
+                    <input
+                      type="radio"
+                      name="material"
+                      id="pla"
+                      class="hidebx"
+                      value=""
+                    /><label for="pla" class="lbl-redio">PLA</label>
+                  </div>
+                  <div class="col">
+                    <input
+                      type="radio"
+                      name="material"
+                      id="avs"
+                      class="hidebx"
+                      value=""
+                    /><label for="avs" class="lbl-redio">AVS</label>
+                  </div>
+                  <div class="col">
+                    <input
+                      type="radio"
+                      name="material"
+                      id="tpu"
+                      class="hidebx"
+                      value=""
+                    /><label for="tpu" class="lbl-redio">TPU</label>
+                  </div>
+                  <div class="col">
+                    <input
+                      type="radio"
+                      name="material"
+                      id="petg"
+                      class="hidebx"
+                      value=""
+                    /><label for="petg" class="lbl-redio">PETG</label>
+                  </div>
+                </div>
+        </div>
+<div class="custom-radios">
+    <span class="productName">Color</span>
+  <div>
+    <input type="radio" id="color-1" name="color" value="color-1" checked>
+    <label for="color-1">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+
+  <div>
+    <input type="radio" id="color-2" name="color" value="color-2">
+    <label for="color-2">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+
+  <div>
+    <input type="radio" id="color-3" name="color" value="color-3">
+    <label for="color-3">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+
+  <div>
+    <input type="radio" id="color-4" name="color" value="color-4">
+    <label for="color-4">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+    <div>
+    <input type="radio" id="color-5" name="color" value="color-4">
+    <label for="color-5">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+    <div>
+    <input type="radio" id="color-6" name="color" value="color-4">
+    <label for="color-6">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+    <div>
+    <input type="radio" id="color-7" name="color" value="color-4">
+    <label for="color-7">
+      <span>
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+      </span>
+    </label>
+  </div>
+</div>
+        <input type="submit">
+      </form>
+    </div>
+{% include "home/footer.html" %}
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

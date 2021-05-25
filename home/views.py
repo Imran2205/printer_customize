@@ -54,6 +54,31 @@ def home(request):
     }
     return render(request, 'home/home.html', context)
 
+
+def complete_profile(request):
+    context = {
+
+    }
+    return render(request, 'home/complete_profile.html', context)
+
+def file_upload(request):
+    context = {
+
+    }
+    return render(request, 'home/file_upload.html', context)
+
+def link_upload(request):
+    context = {
+
+    }
+    return render(request, 'home/link_upload.html', context)
+
+def print_order(request):
+    context = {
+
+    }
+    return render(request, 'home/print_order.html', context)
+
 def login_register(request, log_or_reg='login'):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
