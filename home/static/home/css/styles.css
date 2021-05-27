@@ -1563,6 +1563,27 @@ input[type=submit]:hover {
 .custom-radios input[type=radio]:checked + label span img {
   opacity: 1;
 }
+
+.userProfile__completeProfile:not(:last-child){
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.completeProfile__btn{
+  background-color: var(--color-primaty);
+  border: none;
+  width: 100%;
+  height: 40px;
+  color: var(--white);
+  border-radius: 6px;
+}
+.completeProfile__btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  border: 0;
+  transition: all 0.2s ease-in-out;
+}
 @media screen and (max-width: 668px){
   .custom-radios input[type=radio] + label span {
     margin-bottom: 20px;

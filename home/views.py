@@ -20,6 +20,9 @@ from django.http import JsonResponse
 import datetime
 import shortuuid
 
+PRINT_ORDER_STR = 'print'
+PRINTER_ORDER_STR = 'printer'
+
 def home(request):
     best_offers = BestOffers.objects.all()
     abls = ABL.objects.all()
@@ -209,7 +212,7 @@ def ajax_form_save(request):
             instance.display = display
             instance.motor_driver_type = motor_driver
             instance.save()
-            instance.order_id_no = shortuuid.uuid(name = str(instance.id))
+            instance.order_id_no = shortuuid.uuid(name = PRINTER_ORDER_STR+str(instance.id))
             instance.save(update_fields=['order_id_no'])
         except Exception as e:
             return JsonResponse({"success": False}, status=400)

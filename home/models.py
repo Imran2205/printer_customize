@@ -145,6 +145,7 @@ class ProfileInfo(models.Model):
     zip = models.CharField(max_length=20)
     phone = PhoneNumberField()
     occupation = models.CharField(max_length=100, choices=ocp, default='N/A')
+    discount_percentage = models.IntegerField(default=0)
     profile_status = models.CharField(max_length=100, choices=stat2, default='not_verified')
 
     def __str__(self):
@@ -175,7 +176,23 @@ class Orders(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.order_id_no
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+class PrintOrders(models.Model):
+    title = models.CharField(max_length=100)
+    order_id_no = models.CharField(max_length=100, unique=True, default=shortuuid.uuid)
+    order_time = models.DateTimeField(default=timezone.now)
+    description = models.TextField(max_length=1000)
+    color = models.CharField(max_length=20)
+    material = models.CharField(max_length=20)
+    discount_percentage = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.order_id_no
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -324,10 +341,17 @@ class Image(models.Model):
 
 class IdentityDoc(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.FileField(upload_to='files/')
+    image = models.FileField(upload_to='files/docs/')
 
     def __str__(self):
-        return self.user.username + "_image"
+        return self.user.username + "_doc"
+
+class PrintFile(models.Model):
+    order = models.OneToOneField(PrintOrders, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='files/prints/')
+
+    def __str__(self):
+        return self.order.order_id_no + "_print_file"
 
 
 class LatestProduct(models.Model):
