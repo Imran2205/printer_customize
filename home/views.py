@@ -59,8 +59,23 @@ def home(request):
 
 
 def complete_profile(request):
+    if request.method == "POST":
+        complete_profile_form = AccountCompleteForm(request.POST, instance=request.user.profileinfo)
+        if complete_profile_form.is_valid():
+            complete_profile_form.save()
+            idd = request.user.id
+            profile = ProfileInfo.objects.get(user_id=idd)
+            if profile.occupation == 'Student' or profile.occupation == 'Start up':
+                profile.profile_status = 'pending'
+            else:
+                profile.profile_status = 'verified'
+            profile.user_id_no = shortuuid.uuid(name=profile.user.username)
+            profile.save()
+            return redirect('dashboard')
+    else:
+        complete_profile_form = AccountCompleteForm()
     context = {
-
+        'complete_profile_form': complete_profile_form
     }
     return render(request, 'home/complete_profile.html', context)
 
@@ -85,7 +100,7 @@ def print_order(request):
 def login_register(request, log_or_reg='login'):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
-        phone_form = User_phone_number_form(request.POST)
+        phone_form = UserPhoneNumberForm(request.POST)
         login_form = AuthenticationForm(request, request.POST)
         if user_form.is_valid() and phone_form.is_valid():
             user = user_form.save(commit = False)
@@ -138,7 +153,7 @@ def login_register(request, log_or_reg='login'):
 
     else:
         user_form = UserRegisterForm()
-        phone_form = User_phone_number_form()
+        phone_form = UserPhoneNumberForm()
         login_form = AuthenticationForm(request)
         if log_or_reg == 'register':
             messages.error(request, f'register')
@@ -173,9 +188,10 @@ def activate(request, uidb64, token):
 def dashboard(request):
     orders = Orders.objects.filter(user = request.user)
     profiles = ProfileInfo.objects.filter(user = request.user)
+    profile = profiles[0]
     context = {
         'orders': orders,
-        'profiles': profiles,
+        'profile': profile,
         'title': 'User Dashboard'
     }
     return render(request, 'home/dashboard.html', context)

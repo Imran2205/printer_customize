@@ -21,13 +21,13 @@ ocp = [
 ]
 
 DIV = [
-    ('dhaka', 'Dhaka'),
-    ('rajshahi', 'Rajshahi'),
-    ('rangpur', 'Rangpur'),
-    ('sylhet', 'Sylhet'),
-    ('khulna', 'Khulna'),
-    ('chittagong', 'Chittagong'),
-    ('barishal', 'Barishal'),
+    ('Dhaka', 'Dhaka'),
+    ('Rajshahi', 'Rajshahi'),
+    ('Rangpur', 'Rangpur'),
+    ('Sylhet', 'Sylhet'),
+    ('Khulna', 'Khulna'),
+    ('Chittagong', 'Chittagong'),
+    ('Barishal', 'Barishal'),
 ]
 
 order_status = [
@@ -189,6 +189,9 @@ class PrintOrders(models.Model):
     color = models.CharField(max_length=20)
     material = models.CharField(max_length=20)
     discount_percentage = models.IntegerField()
+    price = models.IntegerField(default=0)
+    gm = models.FloatField(default=0)
+    order_status = models.CharField(max_length=100, choices=order_status, default='pending')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -332,6 +335,7 @@ class FilamentQuantity(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
+
 class Image(models.Model):
     offer = models.OneToOneField(BestOffers, on_delete=models.CASCADE)
     image = models.FileField(upload_to='images/')
@@ -339,12 +343,14 @@ class Image(models.Model):
     def __str__(self):
         return self.offer.title + "_image"
 
+
 class IdentityDoc(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.FileField(upload_to='files/docs/')
 
     def __str__(self):
         return self.user.username + "_doc"
+
 
 class PrintFile(models.Model):
     order = models.OneToOneField(PrintOrders, on_delete=models.CASCADE)

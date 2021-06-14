@@ -127,7 +127,7 @@
                   class="fas fa-phone-alt icolor"
                   style="margin-right: 10px"
                 ></i
-                >{% for profile in profiles %}{% if profile.user == user %}{{ profile.phone }}{% endif %}{% endfor %}
+                >{{ profile.phone }}
               </h5>
             </div>
             <div class="userProfile__adderss">
@@ -136,18 +136,31 @@
                   class="fas fa-map-marker-alt icolor"
                   style="margin-right: 10px"
                 ></i
-                >{% for profile in profiles %}{% if profile.user == user %}{{ profile.address }}, {{ profile.address2 }}, {{ profile.city }}, {{ profile.state }}-{{ profile.zip }}{% endif %}{% endfor %}
+                >{{ profile.address }}, {{ profile.address2 }}, {{ profile.city }}, {{ profile.state }}-{{ profile.zip }}
               </h5>
             </div>
+            {% if profile.profile_status == 'not_verified' %}
             <div class="userProfile__completeProfile">
-              <button class="completeProfile__btn">Complete Profile</button>
+              <button class="completeProfile__btn" onclick="location.href='{% url 'complete_profile' %}'">
+                Complete Profile
+              </button>
             </div>
+            {% else %}
+            {% if profile.occupation == 'Student' %}
             <div class="userProfile__completeProfile">
-              <button class="completeProfile__btn">Verify Student ID</button>
+              <button class="completeProfile__btn">
+                Verify Student ID
+              </button>
             </div>
+            {% elif profile.occupation == 'Start up' %}
             <div class="userProfile__completeProfile">
-              <button class="completeProfile__btn">Verify Your StartUp</button>
+              <button class="completeProfile__btn">
+                Verify Your StartUp
+              </button>
             </div>
+            {% else %}
+            {% endif %}
+            {% endif %}
           </div>
         </div>
       </div>
