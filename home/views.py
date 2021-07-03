@@ -85,6 +85,12 @@ def file_upload(request):
     }
     return render(request, 'home/file_upload.html', context)
 
+def paypal_payment(request):
+    context = {
+
+    }
+    return render(request, 'home/paypal_payment.html', context)
+
 def link_upload(request):
     context = {
 

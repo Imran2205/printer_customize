@@ -1,0 +1,63 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Paypal Payments</title>
+
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+
+</head>
+<body>
+    <div class="wrapper" style = "background-color: #f3f5f9; color: #717171;">
+        <div class="container" style = "background-color: #f3f5f9; color: #717171; margin-top: 110px; border-radius: 12px;">
+            <main role="main" style="text-align: center; min-height: 85vh;">
+                    <div class="col-md" style="margin: 10px; text-align: center;">
+                        <script src="https://www.paypal.com/sdk/js?client-id=Ac88B5nxAb6PKjQ1kWr_xt7UgxOye1b7e9nGSXXrNnSNmYwW_Io2R7ZHbDN95l_24C9D2_Xcc5--gT7t"></script>
+                        <div id="paypal-button-container" style="z-index: 1"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="{% static 'home/js/jquery-3.4.1.min.js' %}"></script>
+
+    <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+
+
+    <script src="{% static 'home/js/bootstrap.js' %}"></script>
+
+
+    <script>
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          // This function sets up the details of the transaction, including the amount and line item details.
+          var price = 22;
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: price
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          // This function captures the funds from the transaction.
+          return actions.order.capture().then(function(details) {
+            // This function shows a transaction success message to your buyer.
+            alert('Transaction completed by ' + details.payer.name.given_name);
+          });
+        }
+      }).render('#paypal-button-container');
+    </script>
+
+</body>
+
+</html>

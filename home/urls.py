@@ -17,5 +17,6 @@ urlpatterns = [
     path('complete_profile', views.complete_profile, name = 'complete_profile'),
     path('file_upload', views.file_upload, name='file_upload'),
     path('link_upload', views.link_upload, name='link_upload'),
-    path('print_order', views.print_order, name='print_order')
+    path('print_order', views.print_order, name='print_order'),
+    path('paypal_payment', views.paypal_payment, name='paypal_payment')
 ]
