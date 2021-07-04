@@ -5,8 +5,9 @@
 
 {% block content %}
 
-    <div class="header" id="header">
-        {% include "home/header.html" %}
+    {% include "home/header.html" %}
+    <div class="space">
+
     </div>
 
     <div class="c_container">
@@ -139,21 +140,21 @@
                 >{{ profile.address }}, {{ profile.address2 }}, {{ profile.city }}, {{ profile.state }}-{{ profile.zip }}
               </h5>
             </div>
-            {% if profile.profile_status == 'not_verified' %}
+            {% if profile.profile_status == 'new' %}
             <div class="userProfile__completeProfile">
               <button class="completeProfile__btn" onclick="location.href='{% url 'complete_profile' %}'">
                 Complete Profile
               </button>
             </div>
-            {% else %}
+            {% elif profile.profile_status == 'not_verified' %}
             {% if profile.occupation == 'Student' %}
             <div class="userProfile__completeProfile">
-              <button class="completeProfile__btn">
+              <button class="completeProfile__btn" onclick="location.href='{% url 'file_upload' %}'">
                 Verify Student ID
               </button>
             </div>
             {% elif profile.occupation == 'Start up' %}
-            <div class="userProfile__completeProfile">
+            <div class="userProfile__completeProfile" onclick="location.href='{% url 'file_upload' %}'">
               <button class="completeProfile__btn">
                 Verify Your StartUp
               </button>

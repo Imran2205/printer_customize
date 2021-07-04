@@ -4,15 +4,30 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="header" id="header">
-        {% include "home/header.html" %}
+
+    {% include "home/header.html" %}
+    <div class="space">
+
     </div>
-    <div class="c_container">
+    <div class="c_container" style="min-height: 50vh;">
       <h1 class="completeProfile__header">Upload File</h1>
-      <form>
-        <label for="formFile" class="margin-bottom-24">Upload your Student ID</label>
-        <input class="form-control margin-bottom-24 form-control-lg" id="formFile" type="file" required/>
-        <input type="submit">
+      <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="{% if id_form.non_field_errors %}invalid{% endif %} mb-2">
+            {% for error in id_form.non_field_errors %}
+                {{ error|escape }}
+            {% endfor %}
+          </div>
+
+        <label for="{{ id_form.image.id_for_label }}" class="margin-bottom-24">Upload your Document to verify your occupation</label>
+        <!--<input class="form-control margin-bottom-24 form-control-lg" id="formFile" type="file" required/>-->
+        {% render_field id_form.image class+="form-control margin-bottom-24 form-control-lg" %}
+        <div class="{% if id_form.first_name.errors %} invalid{% endif %} mb-2">
+          {% for error in id_form.image.errors %}
+          <p class="help-block">{{ error }}</p>
+          {% endfor %}
+        </div>
+        <input type="submit" value="Submit"/>
       </form>
     </div>
     {% include "home/footer.html" %}

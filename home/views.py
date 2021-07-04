@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, UserPhoneNumberForm, AccountCompleteForm
+from .forms import UserRegisterForm, UserPhoneNumberForm, AccountCompleteForm, IDUploadForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,7 +14,7 @@ from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, FilamentChamber, FilamentQuantity, Height, MotorDriver, Nozzle, UPSModule, WiFi, Orders, LatestProduct, OurOwnProduct
+from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, FilamentChamber, FilamentQuantity, Height, MotorDriver, Nozzle, UPSModule, WiFi, Orders, LatestProduct, OurOwnProduct, IdentityDoc
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import datetime
@@ -57,7 +57,7 @@ def home(request):
     }
     return render(request, 'home/home.html', context)
 
-
+@login_required
 def complete_profile(request):
     if request.method == "POST":
         complete_profile_form = AccountCompleteForm(request.POST, instance=request.user.profileinfo)
@@ -66,7 +66,9 @@ def complete_profile(request):
             idd = request.user.id
             profile = ProfileInfo.objects.get(user_id=idd)
             if profile.occupation == 'Student' or profile.occupation == 'Start up':
-                profile.profile_status = 'pending'
+                profile.profile_status = 'not_verified'
+                ins = IdentityDoc.objects.create(user = request.user)
+                ins.save()
             else:
                 profile.profile_status = 'verified'
             profile.user_id_no = shortuuid.uuid(name=profile.user.username)
@@ -79,9 +81,24 @@ def complete_profile(request):
     }
     return render(request, 'home/complete_profile.html', context)
 
+@login_required
 def file_upload(request):
+    if request.method == 'POST':
+        id_form = IDUploadForm(request.POST, request.FILES)
+        user = request.user
+        if id_form.is_valid():
+            file = IdentityDoc.objects.get(user=user)
+            # file = File(user=user, file=formset.cleaned_data['file'], file2=formset.cleaned_data['file2'])
+            file.image = id_form.cleaned_data['image']
+            file.save()
+            corr = ProfileInfo.objects.get(user=user)
+            corr.profile_status = 'pending'
+            corr.save()
+            return redirect('dashboard')
+    else:
+        id_form = IDUploadForm()
     context = {
-
+        'id_form': id_form
     }
     return render(request, 'home/file_upload.html', context)
 
@@ -97,6 +114,7 @@ def link_upload(request):
     }
     return render(request, 'home/link_upload.html', context)
 
+@login_required
 def print_order(request):
     context = {
 

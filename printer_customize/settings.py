@@ -27,7 +27,7 @@ SECRET_KEY = config.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['d27ec28906c9.ngrok.io', '127.0.0.1']
 
 
 # Application definition
@@ -153,3 +153,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = config.get('EMAIL_PASS')
 DEFAULT_FROM_EMAIL = 'machronics <'+EMAIL_HOST_USER+'>'
+
+MAX_UPLOAD_SIZE = 10485760

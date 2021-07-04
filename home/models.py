@@ -9,7 +9,8 @@ import shortuuid
 stat2 = [
     ('not_verified', 'not_verified'),
     ('verified', 'verified'),
-    ('pending', 'pending')
+    ('pending', 'pending'),
+    ('new', 'new')
 ]
 
 ocp = [
@@ -146,7 +147,7 @@ class ProfileInfo(models.Model):
     phone = PhoneNumberField()
     occupation = models.CharField(max_length=100, choices=ocp, default='N/A')
     discount_percentage = models.IntegerField(default=0)
-    profile_status = models.CharField(max_length=100, choices=stat2, default='not_verified')
+    profile_status = models.CharField(max_length=100, choices=stat2, default='new')
 
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -350,6 +351,7 @@ class IdentityDoc(models.Model):
 
     def __str__(self):
         return self.user.username + "_doc"
+
 
 
 class PrintFile(models.Model):

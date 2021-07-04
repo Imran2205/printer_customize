@@ -4,8 +4,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="header" id="header">
-        {% include "home/header.html" %}
+
+    {% include "home/header.html" %}
+    <div class="space">
+
     </div>
     <div class="c_container">
         <h1 class="completeProfile__header">Complete Profile </h1>
@@ -17,9 +19,9 @@
                         {{ error|escape }}
                     {% endfor %}
                 </div>
-                <label for="address1">Address 1</label>
+                <label for="{{ complete_profile_form.address.id_for_label }}">Address 1</label>
                 <!--<input type="text" id="address1" name="address_1" placeholder="Address 1" required>-->
-                {% render_field complete_profile_form.address id="address1" placeholder="Address 1" %}
+                {% render_field complete_profile_form.address placeholder="Address 1" %}
                 <div class="{% if complete_profile_form.address.errors %} invalid{% endif %} mb-2">
                     {% for error in complete_profile_form.address.errors %}
                         <p class="help-block">{{ error }}</p>

@@ -1,77 +1,71 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
-      <header class="navigation">
-        <div class="container">
-          <nav class="nav">
-            <div class="nav__hamburger">
-              <svg>
-                <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-menu"></use>
-              </svg>
-            </div>
-
-            <div class="nav__logo">
-              <a href="{% url 'home' %}" class="scroll-link"
-              ><img
-                      src="{% static 'home/images/icon.png' %}"
-                      alt="Machronics"
-                      class="logo-icon"
-              />Machronics</a
-              >
-            </div>
-            <div class="nav__menu">
-              <div class="menu__top">
-                <span class="nav_category">Machronics</span>
-                <a href="#" class="close__toggle">
-                  <svg>
-                    <use xlink:href="{% static 'home/images/sprite.svg' %}#icon-cross"></use>
-                  </svg>
-                </a>
-              </div>
-              <ul class="nav__list">
-                <li class="nav__item">
-                  <a href="{% url 'home' %}" class="nav__link scroll-link">Home</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">Shop</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">Services</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="#" class="nav__link scroll-link">About</a>
-                </li>
-
-                {% if user.is_authenticated %}
-                <li class="nav__item">
-                  <a href="{% url 'dashboard' %}" class="nav__link scroll-link">My account</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="{% url 'logout' %}" class="nav__link scroll-link">Logout</a>
-                </li>
-                {% else %}
-                <li class="nav__item">
-                  <a href="{% url 'login_register' log_or_reg='login' %}" class="nav__link scroll-link">Login</a>
-                </li>
-
-                <li class="nav__item">
-                  <a href="{% url 'login_register' log_or_reg='register' %}" class="nav__link scroll-link">Register</a>
-                </li>
-                {% endif %}
-
-              </ul>
-            </div>
-
-            <div class="nav__icons">
-              <a href="{% url 'dashboard' %}" class="icon__item">
-                <img src="{% static 'home/images/shopping_bag_black_24dp.svg' %}" alt="Cart"/>
-              </a>
-              <span id="cart__total">0</span>
-            </div>
-          </nav>
+     <header>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-md navigation-wrap">
+        <div class="container-xxl">
+          <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'home/images/logo.png' %}" style="height: 50px; width: 50px;">
+            <a class="navbar-brand" href="{% url 'home' %}" style="color: #f21d44; margin-left: 30px; font-size: 25px; font-weight: 400;">Machronics</a>
+          </a>
+          <!-- toggle Button -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#main-nav"
+            aria-controls="main-nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="fas fa-stream navbar-toggler-icon"></i>
+          </button>
+          <!-- navbar link -->
+          <div class="collapse navbar-collapse" id="main-nav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active off" aria-current="page" href="{% url 'home' %}"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link off" href="http://www.machronics.com">shop</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#services"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  >Services</a
+                >
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item off" href="{% url 'home' %}">3d printer</a></li>
+                  <li>
+                    <a class="dropdown-item off" href="{% url 'print_order' %}">Print your model</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link off" href="#">About Us</a>
+              </li>
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link off" href="{% url 'dashboard' %}">My Account</a>
+              </li>
+              <li>
+                <button class="main-btn" onclick="location.href='{% url 'logout' %}'">Logout</button>
+              </li>
+              {% else %}
+              <li>
+                <button class="main-btn" onclick="location.href='{% url 'login_register' log_or_reg='login' %}'">Login</button>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
         </div>
-      </header>
+      </nav>
+    </header>
