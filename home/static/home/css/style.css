@@ -1295,6 +1295,10 @@ input[type="radio"]:checked + .lbl-redio {
   }
 }
 @media screen and (max-width: 868px) {
+  .c_container {
+    padding: 0 20px;
+    margin-bottom: 60px;
+  }
   .user-dahboard {
     display: grid;
     grid-template-columns: 1fr;

@@ -1,0 +1,21 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Optimus</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  </head>
+  <body>
+  <div id="3d_viewer">
+
+  </div>
+    <script src="{% static 'home/js/three.js' %}"></script>
+    <script src="{% static 'home/js/STLLoader.js' %}"></script>
+    <script src="{% static 'home/js/Detector.js' %}"></script>
+    <script src="{% static 'home/js/OrbitControls.js' %}"></script>
+    <script src="{% static 'home/js/handLoader.js' %}"></script>
+  </body>
+</html>

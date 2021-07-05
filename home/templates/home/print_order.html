@@ -9,122 +9,247 @@
 
     </div>
     <div class="c_container">
-      <h1 class="completeProfile__header">Upload your 3D model file</h1>
-      <form>
-        <label for="formFile" class="margin-bottom-24">Upload .zip file of your all 3D model</label>
-        <input class="form-control margin-bottom-24 form-control-lg" id="formFile" type="file" />
+        <h1 class="completeProfile__header">Upload your 3D model file</h1>
+        <div class="row">
+            <div class="col-md" id="3d_viewer">
 
-        <label for="formFile" class="margin-bottom-24">Your requirement</label>
-        <textarea name="Message">Enter your requirement here...</textarea>
+            </div>
+            <div class="col-md" id="form_3d">
+                <form>
+                    <label for="file-selector" class="margin-bottom-24">Upload .zip file of your all 3D model</label>
+                    <input class="form-control margin-bottom-24 form-control-lg" type="file" id="file-selector" accept=".stl" />
 
-        <div class="row selector">
-            <span class="productName">Material</span>
-                <div class="row selector">
-                  <div class="col-2">
-                    <input
-                      type="radio"
-                      name="material"
-                      id="pla"
-                      class="hidebx"
-                      value=""
-                    /><label for="pla" class="lbl-redio">PLA</label>
-                  </div>
-                  <div class="col">
-                    <input
-                      type="radio"
-                      name="material"
-                      id="avs"
-                      class="hidebx"
-                      value=""
-                    /><label for="avs" class="lbl-redio">AVS</label>
-                  </div>
-                  <div class="col">
-                    <input
-                      type="radio"
-                      name="material"
-                      id="tpu"
-                      class="hidebx"
-                      value=""
-                    /><label for="tpu" class="lbl-redio">TPU</label>
-                  </div>
-                  <div class="col">
-                    <input
-                      type="radio"
-                      name="material"
-                      id="petg"
-                      class="hidebx"
-                      value=""
-                    /><label for="petg" class="lbl-redio">PETG</label>
-                  </div>
-                </div>
+                    <label  class="margin-bottom-24">Your requirement</label>
+                    <textarea name="Message">Enter your requirement here...</textarea>
+
+                    <div class="row selector">
+                        <span class="productName">Material</span>
+                            <div class="row selector">
+                                <div class="col-2">
+                                    <input
+                                        type="radio"
+                                        name="material"
+                                        id="pla"
+                                        class="hidebx"
+                                        value=""
+                                    /><label for="pla" class="lbl-redio">PLA</label>
+                                </div>
+                            <div class="col">
+                                <input
+                                    type="radio"
+                                    name="material"
+                                    id="avs"
+                                    class="hidebx"
+                                    value=""
+                                /><label for="avs" class="lbl-redio">AVS</label>
+                            </div>
+                            <div class="col">
+                                <input
+                                    type="radio"
+                                    name="material"
+                                    id="tpu"
+                                    class="hidebx"
+                                    value=""
+                                /><label for="tpu" class="lbl-redio">TPU</label>
+                            </div>
+                            <div class="col">
+                                <input
+                                    type="radio"
+                                    name="material"
+                                    id="petg"
+                                    class="hidebx"
+                                    value=""
+                                /><label for="petg" class="lbl-redio">PETG</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-radios">
+                        <span class="productName">Color</span>
+                        <div>
+                            <input type="radio" id="color-1" name="color" value="color-1" checked>
+                            <label for="color-1">
+                                <span>
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                                </span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <input type="radio" id="color-2" name="color" value="color-2">
+                            <label for="color-2">
+                                <span>
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                                </span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <input type="radio" id="color-3" name="color" value="color-3">
+                            <label for="color-3">
+                                <span>
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                                </span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <input type="radio" id="color-4" name="color" value="color-4">
+                            <label for="color-4">
+                                <span>
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                                </span>
+                            </label>
+                        </div>
+                        <div>
+                        <input type="radio" id="color-5" name="color" value="color-4">
+                            <label for="color-5">
+                                <span>
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                                </span>
+                            </label>
+                        </div>
+                        <div>
+                        <input type="radio" id="color-6" name="color" value="color-4">
+                            <label for="color-6">
+                                <span>
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                                </span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="color-7" name="color" value="color-4">
+                            <label for="color-7">
+                                <span>
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <input type="submit">
+                </form>
+            </div>
         </div>
-<div class="custom-radios">
-    <span class="productName">Color</span>
-  <div>
-    <input type="radio" id="color-1" name="color" value="color-1" checked>
-    <label for="color-1">
-      <span>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
-      </span>
-    </label>
-  </div>
 
-  <div>
-    <input type="radio" id="color-2" name="color" value="color-2">
-    <label for="color-2">
-      <span>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
-      </span>
-    </label>
-  </div>
-
-  <div>
-    <input type="radio" id="color-3" name="color" value="color-3">
-    <label for="color-3">
-      <span>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
-      </span>
-    </label>
-  </div>
-
-  <div>
-    <input type="radio" id="color-4" name="color" value="color-4">
-    <label for="color-4">
-      <span>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
-      </span>
-    </label>
-  </div>
-    <div>
-    <input type="radio" id="color-5" name="color" value="color-4">
-    <label for="color-5">
-      <span>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
-      </span>
-    </label>
-  </div>
-    <div>
-    <input type="radio" id="color-6" name="color" value="color-4">
-    <label for="color-6">
-      <span>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
-      </span>
-    </label>
-  </div>
-    <div>
-    <input type="radio" id="color-7" name="color" value="color-4">
-    <label for="color-7">
-      <span>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
-      </span>
-    </label>
-  </div>
-</div>
-        <input type="submit">
-      </form>
     </div>
 {% include "home/footer.html" %}
 {% endblock content %}
 
 {% block js %}
+    <script src="{% static 'home/js/three.js' %}"></script>
+    <script src="{% static 'home/js/STLLoader.js' %}"></script>
+    <script src="{% static 'home/js/Detector.js' %}"></script>
+    <script src="{% static 'home/js/OrbitControls.js' %}"></script>
+    <script>
+        if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+        var camera, scene, renderer;
+        var file;
+        //var WIDTH = window.innerWidth / 2.2;
+        //var HEIGHT = window.innerHeight / 2.2;
+        var MAX_WIDTH = 900;
+        var MAX_HEIGHT = window.innerHeight/1.5;
+        var WIDTH = document.getElementById("form_3d").offsetWidth;
+        var HEIGHT = document.getElementById("form_3d").offsetHeight;
+        if(WIDTH>MAX_WIDTH){
+          WIDTH = MAX_WIDTH;
+        }
+        if(HEIGHT>MAX_HEIGHT){
+          HEIGHT = MAX_HEIGHT;
+        }
+        init();
+
+        function init() {
+
+            scene = new THREE.Scene();
+            scene.add( new THREE.AmbientLight( 0xFFFFFF ) );
+            scene.background = new THREE.Color( 0x72645b );
+
+            camera = new THREE.PerspectiveCamera( 35, WIDTH / HEIGHT, 1, 500 );
+
+            // Z is up for objects intended to be 3D printed.
+
+            camera.up.set( 0, 0, 1 );
+            camera.position.set( 0, -9, 6 );
+
+            camera.add( new THREE.PointLight( 0xffffff, 0.8 ) );
+
+            scene.add( camera );
+
+            let grid = new THREE.GridHelper( 25, 50, 0xffffff, 0x555555 );
+            grid.rotateOnAxis( new THREE.Vector3( 1, 0, 0 ), 90 * ( Math.PI/180 ) );
+            scene.add( grid );
+
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setClearColor( 0x999999 );
+            renderer.setPixelRatio( window.devicePixelRatio );
+            renderer.setSize( WIDTH, HEIGHT );
+            document.getElementById("3d_viewer").appendChild( renderer.domElement );
+
+            let loader = new THREE.STLLoader();
+
+
+            // Binary files
+
+            let material = new THREE.MeshPhongMaterial( { color: 0xAABB55, specular: 0x111111, shininess: 200 } );
+            loader.load( file, function ( geometry ) {
+                let mesh = new THREE.Mesh( geometry, material );
+
+                mesh.position.set( 0, 0, 0 );
+                mesh.rotation.set( 0, 0, 0 );
+                mesh.scale.set( .02, .02, .02 );
+                mesh.rotateX(-90 * ( Math.PI/180 ) );
+                mesh.rotateY(0);
+                mesh.rotateZ(0);
+
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+
+                scene.add( mesh );
+                render();
+            });
+
+            var controls = new THREE.OrbitControls( camera, renderer.domElement );
+            controls.addEventListener( 'change', render );
+            controls.target.set( 0, 1.2, 2 );
+            controls.update();
+            window.addEventListener( 'resize', onWindowResize, false );
+
+        }
+
+        function onWindowResize() {
+            var MAX_WIDTH = 900;
+            var MAX_HEIGHT = window.innerHeight/1.5;
+            var WIDTH = document.getElementById("form_3d").offsetWidth;
+            var HEIGHT = document.getElementById("form_3d").offsetHeight;
+
+            if(WIDTH>MAX_WIDTH){
+              WIDTH = MAX_WIDTH;
+            }
+            if(HEIGHT>MAX_HEIGHT){
+              HEIGHT = MAX_HEIGHT;
+            }
+            camera.aspect = WIDTH / HEIGHT;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize( WIDTH, HEIGHT );
+
+            render();
+
+        }
+
+        function render() {
+            renderer.render( scene, camera );
+        }
+
+        const inputElement = document.getElementById("file-selector");
+        inputElement.addEventListener("change", handleFiles, false);
+        function handleFiles() {
+            const fileList = this.files;
+            if(fileList[0].type === 'model/stl'){
+                file = fileList[0];
+
+            }
+        }
+    </script>
 {% endblock js %}
