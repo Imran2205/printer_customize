@@ -18,7 +18,8 @@
                 <form>
                     <label for="file-selector" class="margin-bottom-24">Upload .zip file of your all 3D model</label>
                     <input class="form-control margin-bottom-24 form-control-lg" type="file" id="file-selector" accept=".stl" />
-
+                    <h2 class="completeProfile__header_2" id="vol_w">Volume: 0.0 Cubic Centimeter, Weight: 0.0 gm.</h2>
+                    <h2 class="completeProfile__header_2" id="price">Estimated Price: 0.0 BDT</h2>
                     <label  class="margin-bottom-24">Your requirement</label>
                     <textarea name="Message">Enter your requirement here...</textarea>
 
@@ -125,6 +126,16 @@
                             </label>
                         </div>
                     </div>
+                    <div class="range">
+                        <div class="sliderValue">
+                            <span id="slider_span">0</span>
+                        </div>
+                        <div class="sliderField">
+                            <div class="value left">0</div>
+                            <input type="range" name="" id="slider" min="0" max="100" value="50" steps="1">
+                            <div class="value right">100</div>
+                        </div>
+                    </div>
                     <input type="submit">
                 </form>
             </div>
@@ -135,15 +146,30 @@
 {% endblock content %}
 
 {% block js %}
+    <script src="{% static 'home/js/rangeSlider.js' %}"></script>
     <script src="{% static 'home/js/three.js' %}"></script>
     <script src="{% static 'home/js/STLLoader.js' %}"></script>
-    <script src="{% static 'home/js/Detector.js' %}"></script>
     <script src="{% static 'home/js/OrbitControls.js' %}"></script>
+    <script src="{% static 'home/js/Detector.js' %}"></script>
+    <script src="{% static 'home/js/dat.gui.min.js' %}"></script>
+    <script src="{% static 'home/js/ConvexGeometry.js' %}"></script>
     <script>
         if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-
         var camera, scene, renderer;
-        var file;
+        var file_data;
+        let gui;
+        let mesh;
+        const API = {
+            rotateX: 0,
+            rotateY: 0,
+            rotateZ: 0
+        }
+        const density = {
+            abs: 1.15,
+            pla: 1.25,
+            petg: 1.4,
+            tpu: 1.21
+        }
         //var WIDTH = window.innerWidth / 2.2;
         //var HEIGHT = window.innerHeight / 2.2;
         var MAX_WIDTH = 900;
@@ -164,18 +190,16 @@
             scene.add( new THREE.AmbientLight( 0xFFFFFF ) );
             scene.background = new THREE.Color( 0x72645b );
 
-            camera = new THREE.PerspectiveCamera( 35, WIDTH / HEIGHT, 1, 500 );
+            camera = new THREE.PerspectiveCamera( 35, WIDTH / HEIGHT, 1, 1500 );
 
-            // Z is up for objects intended to be 3D printed.
 
             camera.up.set( 0, 0, 1 );
-            camera.position.set( 0, -9, 6 );
+            camera.position.set( 0, 250, 250 );
 
             camera.add( new THREE.PointLight( 0xffffff, 0.8 ) );
 
             scene.add( camera );
-
-            let grid = new THREE.GridHelper( 25, 50, 0xffffff, 0x555555 );
+            let grid = new THREE.GridHelper( 400, 40, 0x000000, 0xffffff );
             grid.rotateOnAxis( new THREE.Vector3( 1, 0, 0 ), 90 * ( Math.PI/180 ) );
             scene.add( grid );
 
@@ -183,36 +207,53 @@
             renderer.setClearColor( 0x999999 );
             renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setSize( WIDTH, HEIGHT );
-            document.getElementById("3d_viewer").appendChild( renderer.domElement );
+            document.getElementById("3d_viewer").innerHTML = "";
+            document.getElementById("3d_viewer").append( renderer.domElement );
+            var controls = new THREE.OrbitControls( camera, renderer.domElement );
+            controls.addEventListener( 'change', render );
+            controls.target.set( 0, 1.2, 2 );
+            controls.update();
 
             let loader = new THREE.STLLoader();
-
-
+            const promise = loader.loadAsync(file_data);
             // Binary files
 
-            let material = new THREE.MeshPhongMaterial( { color: 0xAABB55, specular: 0x111111, shininess: 200 } );
-            loader.load( file, function ( geometry ) {
-                let mesh = new THREE.Mesh( geometry, material );
+            promise.then(function ( geometry ) {
+                //geometry.computeFaceNormals();
+                //geometry.computeVertexNormals();
+
+                //var convexGeometry = new THREE.ConvexGeometry(geometry.vertices);
+                let material = new THREE.MeshPhongMaterial( { color: 0xAABB55, specular: 0x111111, shininess: 200 } );
+                mesh = new THREE.Mesh( geometry, material );
 
                 mesh.position.set( 0, 0, 0 );
                 mesh.rotation.set( 0, 0, 0 );
-                mesh.scale.set( .02, .02, .02 );
-                mesh.rotateX(-90 * ( Math.PI/180 ) );
+                mesh.scale.set( 1, 1, 1 );
+                //mesh.rotateX(-90 * ( Math.PI/180 ) );
+                mesh.rotateX(0);
                 mesh.rotateY(0);
                 mesh.rotateZ(0);
 
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
 
-
+                //var vol = calculateVolume(geometry);
+                //alert(vol);
                 scene.add( mesh );
+                updateUvTransform();
+                initGui();
                 render();
+                //alert((Math.round(getVolume(geometry))/1000) + "cm^3");
+                var v_a = getVolume(geometry);
+                let vol = (Math.round(v_a)/1000).toFixed(2);
+                let wt = (Math.round(v_a*1.3)/1000).toFixed(2);
+                let pr = (wt * 10).toFixed(2);
+                document.getElementById('vol_w').innerHTML = "Volume: " + vol +" Cubic Centimeter, Weight: "+ wt +" gm.";
+                //Volume: 0.0 Cubic Centimeter, Weight: 0.0 gm.
+                document.getElementById('price').innerHTML = "Estimated Price: " + pr + " BDT " + "Area: " + CalculateSurfaceArea(geometry) + " cm^2";
             });
 
-            var controls = new THREE.OrbitControls( camera, renderer.domElement );
-            controls.addEventListener( 'change', render );
-            controls.target.set( 0, 1.2, 2 );
-            controls.update();
+
             window.addEventListener( 'resize', onWindowResize, false );
 
         }
@@ -242,14 +283,114 @@
             renderer.render( scene, camera );
         }
 
-        const inputElement = document.getElementById("file-selector");
-        inputElement.addEventListener("change", handleFiles, false);
-        function handleFiles() {
-            const fileList = this.files;
-            if(fileList[0].type === 'model/stl'){
-                file = fileList[0];
+        function updateUvTransform() {
+
+            //mesh.rotateX(-90 * ( Math.PI/180 ) );
+            mesh.rotation.x = (API.rotateX * ( Math.PI/180 ));
+            mesh.rotation.y = (API.rotateY * ( Math.PI/180 ));
+            mesh.rotation.z = (API.rotateZ * ( Math.PI/180 ));
+
+            render();
+
+        }
+
+        function initGui() {
+            var myEle = document.getElementById("gui");
+            if(myEle){
+                myEle.remove();
+            }
+            gui = new dat.GUI();
+            gui.domElement.id = 'gui';
+            gui.add( API, 'rotateX', 0, 360 ).name( 'rotateX' ).onChange( updateUvTransform );
+            gui.add( API, 'rotateY', 0, 360 ).name( 'rotateY' ).onChange( updateUvTransform );
+            gui.add( API, 'rotateZ', 0, 360 ).name( 'rotateZ' ).onChange( updateUvTransform );
+
+        }
+
+        function getVolume(geometry) {
+            let position = geometry.attributes.position;
+            let faces = position.count / 3;
+            let vol = 0;
+            let p1 = new THREE.Vector3(),
+                p2 = new THREE.Vector3(),
+                p3 = new THREE.Vector3();
+            for (let i = 0; i < faces; i++) {
+                p1.fromBufferAttribute(position, i * 3 + 0);
+                p2.fromBufferAttribute(position, i * 3 + 1);
+                p3.fromBufferAttribute(position, i * 3 + 2);
+                vol += signedVolumeOfTriangle(p1, p2, p3);
 
             }
+            return vol;
+
+        }
+
+        function signedVolumeOfTriangle(p1, p2, p3) {
+            return p1.dot(p2.cross(p3)) / 6.0;
+        }
+
+
+
+        function CalculateSurfaceArea(geometry) {
+
+            var area = 0.0;
+            //alert([geometry.attributes.position.getX(1), geometry.attributes.position.array[3], geometry.attributes.position.getY(1), geometry.attributes.position.array[4], geometry.attributes.position.getZ(1), geometry.attributes.position.array[5]]);
+            for (var i = 0; i < geometry.attributes.position.count/3; i++) {
+
+                //var a = geometry.faces[i].a;
+                //var b = geometry.faces[i].b;
+                //var c = geometry.faces[i].c;
+                var x, y, z;
+
+                x = geometry.attributes.position.getX(i * 3 + 0);
+                y = geometry.attributes.position.getY(i * 3 + 0);
+                z = geometry.attributes.position.getZ(i * 3 + 0);
+
+                var p1 = new THREE.Vector3(x, y, z);
+
+                x = geometry.attributes.position.getX(i * 3 + 1);
+                y = geometry.attributes.position.getY(i * 3 + 1);
+                z = geometry.attributes.position.getZ(i * 3 + 1);
+
+                var p2 = new THREE.Vector3(x, y, z);
+
+                x = geometry.attributes.position.getX(i * 3 + 2);
+                y = geometry.attributes.position.getY(i * 3 + 2);
+                z = geometry.attributes.position.getZ(i * 3 + 2);
+
+                var p3 = new THREE.Vector3(x, y, z);
+
+                area += AreaOfTriangle(p1, p2, p3);
+            }
+
+             return (area/100).toFixed(2);
+        }
+
+        function AreaOfTriangle(p1, p2, p3){
+            var v1 = new THREE.Vector3();
+            var v2 = new THREE.Vector3();
+
+            v1 = p1.clone().sub(p2);
+            v2 = p1.clone().sub(p3);
+
+            var v3 = new THREE.Vector3();
+
+            v3.crossVectors(v1,v2);
+            var s = v3.length()/2;
+            return s
+        }
+
+
+        if (window.FileList && window.File && window.FileReader) {
+            document.getElementById('file-selector').addEventListener('change', event => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.addEventListener('load', event => {
+                    file_data = event.target.result;
+                    init();
+                });
+                reader.readAsDataURL(file);
+            });
         }
     </script>
 {% endblock js %}
