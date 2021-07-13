@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, UserPhoneNumberForm, AccountCompleteForm, IDUploadForm
+from .forms import UserRegisterForm, UserPhoneNumberForm, AccountCompleteForm, IDUploadForm, ModelUploadForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,7 +14,7 @@ from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, FilamentChamber, FilamentQuantity, Height, MotorDriver, Nozzle, UPSModule, WiFi, Orders, LatestProduct, OurOwnProduct, IdentityDoc
+from .models import BestOffers, ProfileInfo, ABL, BedSize, Covered, Display, FilamentChamber, FilamentQuantity, Height, MotorDriver, Nozzle, UPSModule, WiFi, Orders, LatestProduct, OurOwnProduct, IdentityDoc, PrintOrders, PrintFile
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import datetime
@@ -119,8 +119,10 @@ def print_order(request):
     user = request.user
     profiles = ProfileInfo.objects.filter(user=request.user)
     profile = profiles[0]
+    form = ModelUploadForm()
     context = {
-        'profile': profile
+        'profile': profile,
+        'form': form
     }
     return render(request, 'home/print_order.html', context)
 
@@ -257,6 +259,48 @@ def ajax_form_save(request):
             instance.save()
             instance.order_id_no = shortuuid.uuid(name = PRINTER_ORDER_STR+str(instance.id))
             instance.save(update_fields=['order_id_no'])
+        except Exception as e:
+            return JsonResponse({"success": False}, status=400)
+        return JsonResponse({}, status=200)
+    return JsonResponse({"success": False}, status=400)
+
+
+def ajax_form_save_print(request):
+    current_user = request.user
+    if request.method == "POST" and request.is_ajax():
+        try:
+            instance = PrintOrders()
+            instance.user = current_user
+            instance.title = current_user.username + '@' + str(datetime.datetime.now())
+            instance.description = request.POST.get('description', None)
+            instance.color = request.POST.get('color', None)
+            instance.material = request.POST.get('material', None)
+            instance.infill = int(request.POST.get('infill', None))
+            instance.discount_percentage = current_user.profileinfo.discount_percentage
+            instance.price = float(request.POST.get('price'))
+            instance.gm = float(request.POST.get('weight'))
+            instance.volume = float(request.POST.get('volume'))
+            instance.save()
+            instance.order_id_no = shortuuid.uuid(name = PRINT_ORDER_STR+str(instance.id))
+            instance.save(update_fields=['order_id_no'])
+            ins = PrintFile.objects.create(order=instance)
+            ins.save()
+        except Exception as e:
+            return JsonResponse({"success": False}, status=400)
+        return JsonResponse({"success": True, "order_id": instance.id}, status=200)
+    return JsonResponse({"success": False}, status=400)
+
+
+def ajax_save_print_file(request, pk):
+    if request.method == "POST" and request.is_ajax():
+        file_form = ModelUploadForm(request.POST, request.FILES)
+        try:
+            if file_form.is_valid():
+                ins = PrintFile.objects.get(order=pk)
+                ins.model_file = file_form.cleaned_data['model_file']
+                ins.save()
+            else:
+                return JsonResponse({"success": False}, status=400)
         except Exception as e:
             return JsonResponse({"success": False}, status=400)
         return JsonResponse({}, status=200)

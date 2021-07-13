@@ -15,13 +15,15 @@
 
             </div>
             <div class="col-md" id="form_3d">
-                <form id="frm" enctype="multipart/form-data">
+                <form id="frm" enctype="multipart/form-data" method="POST" novalidate="">
+                    {% csrf_token %}
                     <label for="file-selector" class="productName margin-bottom-24">Upload .stl/.zip file of your 3D model</label>
-                    <input class="form-control margin-bottom-24 form-control-lg" type="file" id="file-selector" accept=".stl, .zip" />
+                    <!--<input name="model_file" class="form-control margin-bottom-24 form-control-lg" type="file" id="file-selector" accept=".stl, .zip" />-->
+                    {% render_field form.model_file class+="form-control margin-bottom-24 form-control-lg" id="file-selector" accept=".stl, .zip" %}
                 </form>
-                <form id="frm2">
+                <form id="frm2" method="POST">
                     <label  class="productName margin-bottom-24">Your requirement</label>
-                    <textarea name="Message">Enter your requirement here...</textarea>
+                    <textarea name="message" placeholder="Enter your requirements here..."></textarea>
 
                     <div class="row selector">
                         <span class="productName">Material</span>
@@ -32,7 +34,7 @@
                                         name="material"
                                         id="pla"
                                         class="hidebx"
-                                        value=""
+                                        value="PLA"
                                         checked
                                     /><label for="pla" class="lbl-redio">PLA</label>
                                 </div>
@@ -42,7 +44,7 @@
                                     name="material"
                                     id="abs"
                                     class="hidebx"
-                                    value=""
+                                    value="ABS"
                                 /><label for="abs" class="lbl-redio">ABS</label>
                             </div>
                             <div class="col">
@@ -51,7 +53,7 @@
                                     name="material"
                                     id="tpu"
                                     class="hidebx"
-                                    value=""
+                                    value="TPU"
                                 /><label for="tpu" class="lbl-redio">TPU</label>
                             </div>
                             <div class="col">
@@ -60,7 +62,7 @@
                                     name="material"
                                     id="petg"
                                     class="hidebx"
-                                    value=""
+                                    value="PETG"
                                 /><label for="petg" class="lbl-redio">PETG</label>
                             </div>
                         </div>
@@ -68,7 +70,7 @@
                     <div class="custom-radios">
                         <span class="productName">Color</span>
                         <div>
-                            <input type="radio" id="color-1" name="color" value="color-1" checked>
+                            <input type="radio" id="color-1" name="color" value="White" checked>
                             <label for="color-1">
                                 <span>
                                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
@@ -77,7 +79,7 @@
                         </div>
 
                         <div>
-                            <input type="radio" id="color-2" name="color" value="color-2">
+                            <input type="radio" id="color-2" name="color" value="Black">
                             <label for="color-2">
                                 <span>
                                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
@@ -86,7 +88,7 @@
                         </div>
 
                         <div>
-                            <input type="radio" id="color-3" name="color" value="color-3">
+                            <input type="radio" id="color-3" name="color" value="Grey">
                             <label for="color-3">
                                 <span>
                                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
@@ -95,7 +97,7 @@
                         </div>
 
                         <div>
-                            <input type="radio" id="color-4" name="color" value="color-4">
+                            <input type="radio" id="color-4" name="color" value="Orange">
                             <label for="color-4">
                                 <span>
                                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
@@ -103,7 +105,7 @@
                             </label>
                         </div>
                         <div>
-                        <input type="radio" id="color-5" name="color" value="color-4">
+                        <input type="radio" id="color-5" name="color" value="Red">
                             <label for="color-5">
                                 <span>
                                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
@@ -111,7 +113,7 @@
                             </label>
                         </div>
                         <div>
-                        <input type="radio" id="color-6" name="color" value="color-4">
+                        <input type="radio" id="color-6" name="color" value="Green">
                             <label for="color-6">
                                 <span>
                                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
@@ -119,7 +121,7 @@
                             </label>
                         </div>
                         <div>
-                            <input type="radio" id="color-7" name="color" value="color-4">
+                            <input type="radio" id="color-7" name="color" value="Blue">
                             <label for="color-7">
                                 <span>
                                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
@@ -134,7 +136,7 @@
                         </div>
                         <div class="sliderField">
                             <div class="value left">0</div>
-                            <input type="range" name="" id="slider" min="0" max="100" value="50" steps="1">
+                            <input type="range" name="infill" id="slider" min="0" max="100" value="50" steps="1">
                             <div class="value right">100</div>
                         </div>
                     </div>
@@ -428,8 +430,9 @@
                 }
                 wt = (inf_vol*dense).toFixed(2);
                 var vol_f = inf_vol.toFixed(2);
-                pr = (wt * prc).toFixed(2);
+                pr = wt * prc;
                 pr = pr - pr*(discount/100);
+                pr = pr.toFixed(2)
                 document.getElementById('vol_span').innerHTML = vol_f;
                 document.getElementById('w_span').innerHTML = wt;
                 document.getElementById('price_span').innerHTML = pr;
@@ -583,24 +586,52 @@
 
         $('#frm2').submit(function (e){
             e.preventDefault();
-            alert('sub');
             var other_data = new FormData(this);
             var file_data = new FormData(document.getElementById('frm'));
-            $.ajax({
-            url: '',//"{% url '' %}"
-            type: 'POST',
-            data: {
-                'file_data': file_data,
-                'other_data': other_data
-            },
-            success: function (response) {
-
-            },
-            error: function(error){
-
+            if(other_data.get("message") === "" || file_data.get("model_file") === ""){
+                alert("Please fill up all the fields...");
             }
-        });
-
+            else{
+                var token = '{{ csrf_token }}';
+                $.ajax({
+                    url: "{% url 'save_print_form' %}",
+                    type: 'POST',
+                    data: {
+                        'description': other_data.get("message"),
+                        'color': other_data.get("color"),
+                        'material': other_data.get("material"),
+                        'infill': other_data.get("infill"),
+                        'weight': document.getElementById('w_span').innerHTML,
+                        'volume': document.getElementById('vol_span').innerHTML,
+                        'price': document.getElementById('price_span').innerHTML
+                    },
+                    headers: {'X-CSRFToken': token},
+                    success: function (response) {
+                        $.ajax({
+                            url: "{% url 'save_print_file' pk=9 %}".replace('9', response.order_id),
+                            type: 'POST',
+                            data: file_data,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                alert("Successfully placed your order");
+                                location.href="/";
+                            },
+                            error: function(error){
+                                console.log(error);
+                                console.log("error");
+                                alert("An error occurred placing your order");
+                            }
+                        });
+                    },
+                    error: function(error){
+                        console.log(error);
+                        console.log("error");
+                        alert("An error occurred placing your order");
+                    }
+                });
+            }
         });
     </script>
 {% endblock js %}

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import ProfileInfo, BestOffers, IdentityDoc
+from .models import ProfileInfo, BestOffers, IdentityDoc, PrintFile
 from phonenumber_field.modelfields import PhoneNumberField
 from django import forms
 from django.template.defaultfilters import filesizeformat
@@ -75,3 +75,9 @@ class IDUploadForm(forms.ModelForm):
     class Meta:
         model = IdentityDoc
         fields = ['image']
+
+class ModelUploadForm(forms.ModelForm):
+    model_file = RestrictedFileField(content_types=['model/stl', 'application/zip'])
+    class Meta:
+        model = PrintFile
+        fields = ['model_file']

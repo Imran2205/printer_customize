@@ -182,6 +182,7 @@ class Orders(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
+
 class PrintOrders(models.Model):
     title = models.CharField(max_length=100)
     order_id_no = models.CharField(max_length=100, unique=True, default=shortuuid.uuid)
@@ -191,8 +192,9 @@ class PrintOrders(models.Model):
     material = models.CharField(max_length=20)
     infill = models.IntegerField(default=20)
     discount_percentage = models.IntegerField(default=0)
-    price = models.IntegerField(default=0)
+    price = models.FloatField(default=0)
     gm = models.FloatField(default=0)
+    volume = models.FloatField(default=0)
     order_status = models.CharField(max_length=100, choices=order_status, default='pending')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -357,7 +359,7 @@ class IdentityDoc(models.Model):
 
 class PrintFile(models.Model):
     order = models.OneToOneField(PrintOrders, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='files/prints/')
+    model_file = models.FileField(upload_to='files/prints/')
 
     def __str__(self):
         return self.order.order_id_no + "_print_file"
