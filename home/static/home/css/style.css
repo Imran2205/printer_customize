@@ -1497,7 +1497,6 @@ input[type=submit]:hover {
 .custom-radios input[type=radio]:checked + label span img {
   opacity: 1;
 }
-
 .userProfile__completeProfile:not(:last-child){
   display: flex;
   justify-content: center;
@@ -1542,8 +1541,8 @@ input[type=submit]:hover {
 }
 .range .sliderField .value{
     position: absolute;
-    font-size: 1rem;
-    color: red;
+    font-size: 1.6rem;
+    color: var(--color-primaty);
 }
 .range .sliderField .value.left{
     left: -22px;
@@ -1627,4 +1626,19 @@ input[type=submit]:hover {
     border-top-right-radius: 50%;
     border-bottom-left-radius: 50%;
     z-index: -1;
+}
+
+/* Warning text*/
+.warning{
+  color: var(--color-primaty);
+}
+
+/* printing details */
+.printing-details h4{
+  font-size: 1.6rem;
+}
+.printing-details h3{
+  color: var(--color-primaty);
+  font-size: 2rem;
+  font-weight: 600;
 }

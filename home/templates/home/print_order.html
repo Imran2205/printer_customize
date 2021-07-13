@@ -15,12 +15,12 @@
 
             </div>
             <div class="col-md" id="form_3d">
-                <form>
-                    <label for="file-selector" class="margin-bottom-24">Upload .zip file of your all 3D model</label>
-                    <input class="form-control margin-bottom-24 form-control-lg" type="file" id="file-selector" accept=".stl" />
-                    <h2 class="completeProfile__header_2" id="vol_w">Volume: 0.0 Cubic Centimeter, Weight: 0.0 gm.</h2>
-                    <h2 class="completeProfile__header_2" id="price">Estimated Price: 0.0 BDT</h2>
-                    <label  class="margin-bottom-24">Your requirement</label>
+                <form id="frm" enctype="multipart/form-data">
+                    <label for="file-selector" class="productName margin-bottom-24">Upload .stl/.zip file of your 3D model</label>
+                    <input class="form-control margin-bottom-24 form-control-lg" type="file" id="file-selector" accept=".stl, .zip" />
+                </form>
+                <form id="frm2">
+                    <label  class="productName margin-bottom-24">Your requirement</label>
                     <textarea name="Message">Enter your requirement here...</textarea>
 
                     <div class="row selector">
@@ -33,16 +33,17 @@
                                         id="pla"
                                         class="hidebx"
                                         value=""
+                                        checked
                                     /><label for="pla" class="lbl-redio">PLA</label>
                                 </div>
                             <div class="col">
                                 <input
                                     type="radio"
                                     name="material"
-                                    id="avs"
+                                    id="abs"
                                     class="hidebx"
                                     value=""
-                                /><label for="avs" class="lbl-redio">AVS</label>
+                                /><label for="abs" class="lbl-redio">ABS</label>
                             </div>
                             <div class="col">
                                 <input
@@ -126,7 +127,8 @@
                             </label>
                         </div>
                     </div>
-                    <div class="range">
+                    <span class="productName">Infill</span>
+                    <div class="range mb-5">
                         <div class="sliderValue">
                             <span id="slider_span">0</span>
                         </div>
@@ -136,7 +138,18 @@
                             <div class="value right">100</div>
                         </div>
                     </div>
-                    <input type="submit">
+                    <div class="printing-details">
+                        <div class="productName">Your Printing Details</div>
+                        <h4>Volume: <span id="vol_span">0.00</span> Cubic Centimeter</h4>
+                        <h4>Weight: <span id="w_span">0.00</span> gm</h4>
+                        <h4>Material: <span id="mat_span">PLA</span></h4>
+                        <h4>Color: <span id="col_span">White</span></h4>
+                        <h4>Infill: <span id="infill_span">0</span> %</h4>
+                        <h3 class="mt-4">Price: <span id="price_span">0.00</span> BDT</h3>
+                        <p class="warning my-5">** NOTE: Price is calculated without considering any support or adhesion. Price may increase if support or adhesion is needed. The price shown is estimated based on the volume of the model. It may vary **</p>
+                    </div>
+
+                    <input type="submit" id="submit_btn">
                 </form>
             </div>
         </div>
@@ -146,7 +159,6 @@
 {% endblock content %}
 
 {% block js %}
-    <script src="{% static 'home/js/rangeSlider.js' %}"></script>
     <script src="{% static 'home/js/three.js' %}"></script>
     <script src="{% static 'home/js/STLLoader.js' %}"></script>
     <script src="{% static 'home/js/OrbitControls.js' %}"></script>
@@ -155,10 +167,15 @@
     <script src="{% static 'home/js/ConvexGeometry.js' %}"></script>
     <script>
         if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+        document.getElementById('frm').reset();
+        document.getElementById('frm2').reset();
         var camera, scene, renderer;
         var file_data;
         let gui;
         let mesh;
+        var dense, prc, infill;
+        var is_zip = false;
+        var discount = {{profile.discount_percentage}};
         const API = {
             rotateX: 0,
             rotateY: 0,
@@ -170,6 +187,144 @@
             petg: 1.4,
             tpu: 1.21
         }
+        const price = {
+            abs: 19,
+            pla: 10,
+            petg: 22,
+            tpu: 25
+        }
+        var vol = 0.00;
+        var wt = 0.00;
+        var pr = 0.00;
+        var ar = 0.00;
+
+        var abs = document.getElementById('abs');
+        var pla = document.getElementById('pla');
+        var tpu = document.getElementById('tpu');
+        var petg = document.getElementById('petg');
+
+        var white = document.getElementById('color-1');
+        var black = document.getElementById('color-2');
+        var grey = document.getElementById('color-3');
+        var orange = document.getElementById('color-4');
+        var red = document.getElementById('color-5');
+        var green = document.getElementById('color-6');
+        var blue = document.getElementById('color-7');
+
+
+        abs.onclick = function (){
+            dense = density.abs;
+            prc = price.abs;
+            document.getElementById('mat_span').innerHTML = "ABS";
+            showDetail();
+        }
+        pla.onclick = function (){
+            dense = density.pla;
+            prc = price.pla;
+            document.getElementById('mat_span').innerHTML = "PLA";
+            showDetail();
+        }
+        tpu.onclick = function (){
+            dense = density.tpu;
+            prc = price.tpu;
+            document.getElementById('mat_span').innerHTML = "TPU";
+            showDetail();
+        }
+        petg.onclick = function (){
+            dense = density.petg;
+            prc = price.petg;
+            document.getElementById('mat_span').innerHTML = "PETG";
+            showDetail();
+        }
+
+        white.onclick = function (){
+            document.getElementById('col_span').innerHTML = "White";
+        }
+        black.onclick = function (){
+            document.getElementById('col_span').innerHTML = "Black";
+        }
+        grey.onclick = function (){
+            document.getElementById('col_span').innerHTML = "Grey";
+        }
+        orange.onclick = function (){
+            document.getElementById('col_span').innerHTML = "Orange";
+        }
+        red.onclick = function (){
+            document.getElementById('col_span').innerHTML = "Red";
+        }
+        green.onclick = function (){
+            document.getElementById('col_span').innerHTML = "Green";
+        }
+        blue.onclick = function (){
+            document.getElementById('col_span').innerHTML = "Blue";
+        }
+
+        var val = document.querySelectorAll('[type="radio"]');
+
+        for(var i = 0; i < val.length; i++){
+            if(val[i].checked){
+                if(val[i].id === 'pla'){
+                    dense = density.pla;
+                    prc = price.pla;
+                    document.getElementById('mat_span').innerHTML = "PLA";
+                }
+                else if(val[i].id === 'tpu'){
+                    dense = density.tpu;
+                    prc = price.tpu;
+                    document.getElementById('mat_span').innerHTML = "TPU";
+                }
+                else if(val[i].id === 'abs'){
+                    dense = density.abs;
+                    prc = price.abs;
+                    document.getElementById('mat_span').innerHTML = "ABS";
+                }
+                else if(val[i].id === 'petg'){
+                    dense = density.petg;
+                    prc = price.petg;
+                    document.getElementById('mat_span').innerHTML = "PETG";
+                }
+                else if(val[i].id === 'color-1'){
+                    document.getElementById('col_span').innerHTML = "White";
+                }
+                else if(val[i].id === 'color-2'){
+                    document.getElementById('col_span').innerHTML = "Black";
+                }
+                else if(val[i].id === 'color-3'){
+                    document.getElementById('col_span').innerHTML = "Grey";
+                }
+                else if(val[i].id === 'color-4'){
+                    document.getElementById('col_span').innerHTML = "Orange";
+                }
+                else if(val[i].id === 'color-5'){
+                    document.getElementById('col_span').innerHTML = "Red";
+                }
+                else if(val[i].id === 'color-6'){
+                    document.getElementById('col_span').innerHTML = "Green";
+                }
+                else if(val[i].id === 'color-7'){
+                    document.getElementById('col_span').innerHTML = "Blue";
+                }
+            }
+        }
+
+        const slideValue = document.getElementById('slider_span');
+        const inputSlider = document.getElementById('slider');
+        slideValue.style.left = (inputSlider.value) + "%"
+        slideValue.textContent = inputSlider.value;
+        document.getElementById('infill_span').innerHTML = (inputSlider.value);
+        infill = inputSlider.value/100;
+        inputSlider.oninput = (() =>{
+            let value = inputSlider.value;
+            slideValue.textContent = value;
+            slideValue.style.left = (value) + "%";
+            slideValue.classList.add("show");
+            document.getElementById('infill_span').innerHTML = (value);
+            infill = value/100;
+            showDetail();
+        });
+        inputSlider.onblur = (()=>{
+            slideValue.classList.remove("show");
+        });
         //var WIDTH = window.innerWidth / 2.2;
         //var HEIGHT = window.innerHeight / 2.2;
         var MAX_WIDTH = 900;
@@ -245,17 +400,40 @@
                 render();
                 //alert((Math.round(getVolume(geometry))/1000) + "cm^3");
                 var v_a = getVolume(geometry);
-                let vol = (Math.round(v_a)/1000).toFixed(2);
-                let wt = (Math.round(v_a*1.3)/1000).toFixed(2);
-                let pr = (wt * 10).toFixed(2);
-                document.getElementById('vol_w').innerHTML = "Volume: " + vol +" Cubic Centimeter, Weight: "+ wt +" gm.";
-                //Volume: 0.0 Cubic Centimeter, Weight: 0.0 gm.
-                document.getElementById('price').innerHTML = "Estimated Price: " + pr + " BDT " + "Area: " + CalculateSurfaceArea(geometry) + " cm^2";
+                vol = Math.round(v_a)/1000;
+                //wt = (Math.round(v_a*dense)/1000).toFixed(2);
+                //pr = (wt * prc).toFixed(2);
+                var sur_ar = CalculateSurfaceArea(geometry);
+                ar = sur_ar * 0.12;
+                showDetail();
             });
-
 
             window.addEventListener( 'resize', onWindowResize, false );
 
+        }
+
+        function showDetail(){
+            if(is_zip){
+                document.getElementById('vol_span').innerHTML = 'Can not determine the volume in';
+                document.getElementById('w_span').innerHTML = 'Can not determine the weight in';
+                document.getElementById('price_span').innerHTML = 'Can not determine the price in';
+            }
+            else{
+                var inf_vol;
+                if(vol-ar < 0){
+                    inf_vol = vol;
+                }
+                else{
+                    inf_vol = ar + (vol - ar)*infill;
+                }
+                wt = (inf_vol*dense).toFixed(2);
+                var vol_f = inf_vol.toFixed(2);
+                pr = (wt * prc).toFixed(2);
+                pr = pr - pr*(discount/100);
+                document.getElementById('vol_span').innerHTML = vol_f;
+                document.getElementById('w_span').innerHTML = wt;
+                document.getElementById('price_span').innerHTML = pr;
+            }
         }
 
         function onWindowResize() {
@@ -386,11 +564,43 @@
                 const file = event.target.files[0];
                 const reader = new FileReader();
                 reader.addEventListener('load', event => {
-                    file_data = event.target.result;
-                    init();
+                    if(file.type === 'model/stl'){
+                        file_data = event.target.result;
+                        init();
+                        is_zip = false;
+                    }
+                    else{
+                        file_data = '';
+                        is_zip = true;
+                        showDetail();
+                        init();
+                    }
+
                 });
                 reader.readAsDataURL(file);
             });
         }
+
+        $('#frm2').submit(function (e){
+            e.preventDefault();
+            alert('sub');
+            var other_data = new FormData(this);
+            var file_data = new FormData(document.getElementById('frm'));
+            $.ajax({
+            url: '',//"{% url '' %}"
+            type: 'POST',
+            data: {
+                'file_data': file_data,
+                'other_data': other_data
+            },
+            success: function (response) {
+
+            },
+            error: function(error){
+
+            }
+        });
+
+        });
     </script>
 {% endblock js %}

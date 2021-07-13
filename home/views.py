@@ -116,8 +116,11 @@ def link_upload(request):
 
 @login_required
 def print_order(request):
+    user = request.user
+    profiles = ProfileInfo.objects.filter(user=request.user)
+    profile = profiles[0]
     context = {
-
+        'profile': profile
     }
     return render(request, 'home/print_order.html', context)
 
