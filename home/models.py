@@ -359,7 +359,7 @@ class IdentityDoc(models.Model):
 
 class PrintFile(models.Model):
     order = models.OneToOneField(PrintOrders, on_delete=models.CASCADE)
-    model_file = models.FileField(upload_to='files/prints/')
+    model_filecd = models.FileField(upload_to='files/prints/')
 
     def __str__(self):
         return self.order.order_id_no + "_print_file"

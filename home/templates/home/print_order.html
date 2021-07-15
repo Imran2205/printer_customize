@@ -592,6 +592,14 @@
                 alert("Please fill up all the fields...");
             }
             else{
+                var weight = document.getElementById('w_span').innerHTML;
+                var volume = document.getElementById('vol_span').innerHTML;
+                var price = document.getElementById('price_span').innerHTML;
+                if(document.getElementById('price_span').innerHTML === 'Can not determine the price in'){
+                    weight = "0.00";
+                    volume = "0.00";
+                    price = "0.00";
+                }
                 var token = '{{ csrf_token }}';
                 $.ajax({
                     url: "{% url 'save_print_form' %}",
@@ -601,9 +609,9 @@
                         'color': other_data.get("color"),
                         'material': other_data.get("material"),
                         'infill': other_data.get("infill"),
-                        'weight': document.getElementById('w_span').innerHTML,
-                        'volume': document.getElementById('vol_span').innerHTML,
-                        'price': document.getElementById('price_span').innerHTML
+                        'weight': weight,
+                        'volume': volume,
+                        'price': price
                     },
                     headers: {'X-CSRFToken': token},
                     success: function (response) {
