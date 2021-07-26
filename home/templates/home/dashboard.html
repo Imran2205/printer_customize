@@ -26,7 +26,7 @@
         <!-- Product card -->
         <div class="user-orderd">
           <div class="bottom-text">
-            <h2 class="order-text">Purchase History</h2>
+            <h2 class="order-text">Printer Order History</h2>
           </div>
           {% for order in orders %}
           <div class="product-card">
@@ -91,6 +91,72 @@
             </div>
           </div>
           {% endfor %}
+
+          <div class="bottom-text">
+            <h2 class="order-text">Print Order History</h2>
+          </div>
+          {% for order in print_orders %}
+          <div class="product-card">
+            <!-- product image -->
+            <div class="product-card__img">
+              <img src="{% static 'home/images/product-photo.jpg' %}" alt="" />
+            </div>
+            <div class="product-card__info">
+              <!-- product title -->
+              <h4 class="product-card__title">Order ID: {{ order.order_id_no }}</h4>
+              <!-- about product -->
+              <p class="product-card__text">
+                Product description: Total Print Volume {{ order.volume }}(estimated), Total weight {{ order.gm }}(estimated),
+                Print Material {{ order.material }}, Infill Percentage {{ order.infill }}, Material Color {{ order.color }},
+                Discount Rate {{ order.discount_percentage }}
+              </p>
+              <!-- product Quantity -->
+              <h5 class="product-card__quantity">
+                <span class="title-quantity">Quantity:</span>
+                <span class="number" style="margin-left: 5px">{{ order.gm }} gm</span>
+              </h5>
+              <!-- product Price -->
+              <h5 class="product-card__price">
+                <span class="title-price">Price:</span>
+                <span class="number-price">{{ order.price }}</span>
+                <span class="bdt">BDT</span>
+              </h5>
+              <!-- product Delivary Status -->
+              <h5 class="product-card__status">
+                <span class="title-status">Status:</span>
+              </h5>
+              <div class="step-progressBar">
+                <div class="container">
+                  <ul class="progressbar">
+                    {% if order.order_status == 'pending' %}
+                    <li class="">Confirmed</li>
+                    <li class="">Processing</li>
+                    <li class="">Delivered</li>
+                    {% elif order.order_status == 'confirmed' %}
+                    <li class="active">Confirmed</li>
+                    <li class="">Processing</li>
+                    <li class="">Delivered</li>
+                    {% elif order.order_status == 'processing' %}
+                    <li class="active">Confirmed</li>
+                    <li class="active">Processing</li>
+                    <li class="">Delivered</li>
+                    {% elif order.order_status == 'delivered' %}
+                    <li class="active">Confirmed</li>
+                    <li class="active">Processing</li>
+                    <li class="active">Delivered</li>
+                    {% else %}
+                    <li class="">Confirmed</li>
+                    <li class="">Processing</li>
+                    <li class="">Delivered</li>
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+              <a href="#" class="btn-text">Learn More</a>
+            </div>
+          </div>
+          {% endfor %}
+
           <!-- <div class="see-more">
             <a href="#" class="see-more__btn">See More</a>
           </div> -->

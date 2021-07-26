@@ -27,7 +27,7 @@ SECRET_KEY = config.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3c17940e5173.ngrok.io', '127.0.0.1']
+ALLOWED_HOSTS = ['www.geo.machronics.com', 'geo.machronics.com']
 
 
 # Application definition
@@ -154,4 +154,5 @@ EMAIL_HOST_USER = config.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = config.get('EMAIL_PASS')
 DEFAULT_FROM_EMAIL = 'machronics <'+EMAIL_HOST_USER+'>'
 
-MAX_UPLOAD_SIZE = 10485760
+MAX_IMAGE_UPLOAD_SIZE = 10485760
+MAX_FILE_UPLOAD_SIZE = 104857600

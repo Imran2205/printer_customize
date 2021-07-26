@@ -19,6 +19,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import datetime
 import shortuuid
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.paginator import Paginator
+from django.http import HttpResponseServerError
+from django.db.models import Q
 
 PRINT_ORDER_STR = 'print'
 PRINTER_ORDER_STR = 'printer'
@@ -113,6 +117,21 @@ def link_upload(request):
 
     }
     return render(request, 'home/link_upload.html', context)
+
+@staff_member_required
+def admin_printer_orders(request):
+    user = request.user
+    if user.is_staff:
+        orders = Orders.objects.filter(Q(order_status='pending'))
+        paginator = Paginator(orders, 1)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'page_obj': page_obj,
+        }
+        return render(request, 'home/admin_printer_management.html', context)
+    else:
+        return HttpResponseServerError()
 
 @login_required
 def print_order(request):
@@ -216,10 +235,12 @@ def activate(request, uidb64, token):
 @login_required
 def dashboard(request):
     orders = Orders.objects.filter(user = request.user)
+    print_orders = PrintOrders.objects.filter(user = request.user)
     profiles = ProfileInfo.objects.filter(user = request.user)
     profile = profiles[0]
     context = {
         'orders': orders,
+        'print_orders': print_orders,
         'profile': profile,
         'title': 'User Dashboard'
     }

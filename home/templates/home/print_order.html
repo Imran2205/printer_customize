@@ -19,7 +19,7 @@
                     {% csrf_token %}
                     <label for="file-selector" class="productName margin-bottom-24">Upload .stl/.zip file of your 3D model</label>
                     <!--<input name="model_file" class="form-control margin-bottom-24 form-control-lg" type="file" id="file-selector" accept=".stl, .zip" />-->
-                    {% render_field form.model_file class+="form-control margin-bottom-24 form-control-lg" id="file-selector" accept=".stl, .zip" %}
+                    {% render_field form.model_file class+="form-control margin-bottom-24 form-control-lg" id="file-selector" accept=".stl, zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" %}
                 </form>
                 <form id="frm2" method="POST">
                     <label  class="productName margin-bottom-24">Your requirement</label>
@@ -66,6 +66,9 @@
                                 /><label for="petg" class="lbl-redio">PETG</label>
                             </div>
                         </div>
+                    </div>
+                    <div class="custom-radios">
+                        <span class="productName_2">Unit Price: <span class="productName_2" id="unit_price">10</span> BDT/gm</span>
                     </div>
                     <div class="custom-radios">
                         <span class="productName">Color</span>
@@ -218,47 +221,58 @@
             dense = density.abs;
             prc = price.abs;
             document.getElementById('mat_span').innerHTML = "ABS";
+            document.getElementById('unit_price').innerHTML = price.abs;
             showDetail();
         }
         pla.onclick = function (){
             dense = density.pla;
             prc = price.pla;
             document.getElementById('mat_span').innerHTML = "PLA";
+            document.getElementById('unit_price').innerHTML = price.pla;
             showDetail();
         }
         tpu.onclick = function (){
             dense = density.tpu;
             prc = price.tpu;
             document.getElementById('mat_span').innerHTML = "TPU";
+            document.getElementById('unit_price').innerHTML = price.tpu;
             showDetail();
         }
         petg.onclick = function (){
             dense = density.petg;
             prc = price.petg;
             document.getElementById('mat_span').innerHTML = "PETG";
+            document.getElementById('unit_price').innerHTML = price.petg;
             showDetail();
         }
 
         white.onclick = function (){
             document.getElementById('col_span').innerHTML = "White";
+            changeColor(0xffffff);
         }
         black.onclick = function (){
             document.getElementById('col_span').innerHTML = "Black";
+            changeColor(0x000000);
         }
         grey.onclick = function (){
             document.getElementById('col_span').innerHTML = "Grey";
+            changeColor(0x808080);
         }
         orange.onclick = function (){
             document.getElementById('col_span').innerHTML = "Orange";
+            changeColor(0xFFA500);
         }
         red.onclick = function (){
             document.getElementById('col_span').innerHTML = "Red";
+            changeColor(0x990000);
         }
         green.onclick = function (){
             document.getElementById('col_span').innerHTML = "Green";
+            changeColor(0x229920);
         }
         blue.onclick = function (){
             document.getElementById('col_span').innerHTML = "Blue";
+            changeColor(0x00008B);
         }
 
         var val = document.querySelectorAll('[type="radio"]');
@@ -344,7 +358,7 @@
         function init() {
 
             scene = new THREE.Scene();
-            scene.add( new THREE.AmbientLight( 0xFFFFFF ) );
+            scene.add( new THREE.AmbientLight( 0x444444 ) );
             scene.background = new THREE.Color( 0x72645b );
 
             camera = new THREE.PerspectiveCamera( 35, WIDTH / HEIGHT, 1, 1500 );
@@ -380,11 +394,14 @@
                 //geometry.computeVertexNormals();
 
                 //var convexGeometry = new THREE.ConvexGeometry(geometry.vertices);
-                let material = new THREE.MeshPhongMaterial( { color: 0xAABB55, specular: 0x111111, shininess: 200 } );
+                let material = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, specular: 0x111111, shininess: 200 } );
+                geometry.center();
                 mesh = new THREE.Mesh( geometry, material );
 
-                mesh.position.set( 0, 0, 0 );
-                mesh.rotation.set( 0, 0, 0 );
+                //mesh.position.set( 0, 0, 0 );
+                var bbox = new THREE.Box3().setFromObject(mesh);
+                var offset = bbox.min.z;
+                mesh.position.z = mesh.position.z - offset;
                 mesh.scale.set( 1, 1, 1 );
                 //mesh.rotateX(-90 * ( Math.PI/180 ) );
                 mesh.rotateX(0);
@@ -433,6 +450,18 @@
                 pr = wt * prc;
                 pr = pr - pr*(discount/100);
                 pr = pr.toFixed(2)
+                if(vol_f <= 0){
+                    vol_f = 0;
+                }
+                if(wt <= 0){
+                    wt = 0;
+                }
+                if(vol_f < 0 || wt < 0){
+                    alert("There is error in mesh! unable to compute volume.");
+                }
+                if(pr <= 200){
+                    pr = 200;
+                }
                 document.getElementById('vol_span').innerHTML = vol_f;
                 document.getElementById('w_span').innerHTML = wt;
                 document.getElementById('price_span').innerHTML = pr;
@@ -470,9 +499,17 @@
             mesh.rotation.x = (API.rotateX * ( Math.PI/180 ));
             mesh.rotation.y = (API.rotateY * ( Math.PI/180 ));
             mesh.rotation.z = (API.rotateZ * ( Math.PI/180 ));
-
+            mesh.geometry.center();
+            var bbox = new THREE.Box3().setFromObject(mesh);
+            var offset = bbox.min.z;
+            mesh.position.z = mesh.position.z - offset;
             render();
 
+        }
+
+        function changeColor(color) {
+            mesh.material.color.setHex(color);
+            render();
         }
 
         function initGui() {
@@ -567,10 +604,14 @@
                 const file = event.target.files[0];
                 const reader = new FileReader();
                 reader.addEventListener('load', event => {
-                    if(file.type === 'model/stl'){
+                    if(file.type === 'model/stl' || file.name.substr(file.name.length - 4) === '.STL' || file.name.substr(file.name.length - 4) === '.stl'){
                         file_data = event.target.result;
                         init();
                         is_zip = false;
+                    }
+                    else if(file.name.substr(file.name.length - 4) !== '.STL' && file.name.substr(file.name.length - 4) !== '.stl' && file.name.substr(file.name.length - 4) !== '.ZIP' && file.name.substr(file.name.length - 4) !== '.zip'){
+                        alert("Please choose a valid file.");
+                        location.reload();
                     }
                     else{
                         file_data = '';
@@ -629,14 +670,14 @@
                             error: function(error){
                                 console.log(error);
                                 console.log("error");
-                                alert("An error occurred placing your order");
+                                alert("Error placing your order!");
                             }
                         });
                     },
                     error: function(error){
                         console.log(error);
                         console.log("error");
-                        alert("An error occurred placing your order");
+                        alert("Error placing your order!");
                     }
                 });
             }

@@ -36,7 +36,7 @@ class RestrictedFileField(forms.FileField):
         self.content_types = kwargs.pop('content_types', None)
         self.max_upload_size = kwargs.pop('max_upload_size', None)
         if not self.max_upload_size:
-            self.max_upload_size = settings.MAX_UPLOAD_SIZE
+            self.max_upload_size = settings.MAX_FILE_UPLOAD_SIZE
         super(RestrictedFileField, self).__init__(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
@@ -52,11 +52,33 @@ class RestrictedFileField(forms.FileField):
 
         return data
 
+
+class RestrictedModelField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        self.content_types = kwargs.pop('content_types', None)
+        self.max_upload_size = kwargs.pop('max_upload_size', None)
+        if not self.max_upload_size:
+            self.max_upload_size = settings.MAX_FILE_UPLOAD_SIZE
+        super(RestrictedModelField, self).__init__(*args, **kwargs)
+
+    def clean(self, *args, **kwargs):
+        data = super(RestrictedModelField, self).clean(*args, **kwargs)
+        try:
+            if data.content_type in self.content_types or '.STL' in data.name or '.stl' in data.name or '.ZIP' in data.name or '.zip' in data.name:
+                if data.size > self.max_upload_size:
+                    raise forms.ValidationError(_('File size must be under %s. Current file size is %s.') % (filesizeformat(self.max_upload_size), filesizeformat(data.size)))
+            else:
+                raise forms.ValidationError(_('File type (%s) is not supported.') % data.content_type)
+        except AttributeError:
+            pass
+
+        return data
+
 class RestrictedImageField(forms.ImageField):
     def __init__(self, *args, **kwargs):
         self.max_upload_size = kwargs.pop('max_upload_size', None)
         if not self.max_upload_size:
-            self.max_upload_size = settings.MAX_UPLOAD_SIZE
+            self.max_upload_size = settings.MAX_IMAGE_UPLOAD_SIZE
         super(RestrictedImageField, self).__init__(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
@@ -71,13 +93,14 @@ class RestrictedImageField(forms.ImageField):
 
 
 class IDUploadForm(forms.ModelForm):
-    image = RestrictedFileField(content_types=['image/jpeg', 'application/pdf', 'image/jpg', 'image/png'])
+    image = RestrictedFileField(content_types=['image/jpeg', 'application/pdf', 'image/jpg', 'image/png'], max_upload_size=10485760)
     class Meta:
         model = IdentityDoc
         fields = ['image']
 
+
 class ModelUploadForm(forms.ModelForm):
-    model_file = RestrictedFileField(content_types=['model/stl', 'application/zip'])
+    model_file = RestrictedModelField(content_types=['model/stl', 'application/zip'], max_upload_size=104857600)
     class Meta:
         model = PrintFile
         fields = ['model_file']

@@ -1,10 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "home/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
 
-</body>
-</html>
+{% block content %}
+    {% include "home/header.html" %}
+    <div class="space">
+
+    </div>
+    <h1 class="va-title">3D Printer</h1>
+    <section class="verify-user">
+      <div class="p_container">
+        {% for order in page_obj %}
+        <div class="va-user-card">
+          <div class="va-user-img">
+            <a href="#"><i class="fas fa-folder-open"></i></a>
+            <h3>Open Your File</h3>
+          </div>
+          <div class="va-user-data">
+              <h4 class="va-user-name user-name">{{ order.user.first_name }} {{ order.user.last_name }}</h4>
+              <p class="va-user-info">Order Number: <span class="order-number">{{ order.order_id_no }}</span> </p>
+              <p class="va-user-info ">Bed Size: <span class="bed-size">{{ order.bed_size }}</span></p>
+              <p class="va-user-info ">Height: <span class="height">{{ order.height }}</span> MM </p>
+              <p class="va-user-info ">Nozzel: <span class="nozzel">{{ order.nozzle }}</span></p>
+              <p class="va-user-info ">Display: <span class="display">{{ order.display }}</span></p>
+              <p class="va-user-info ">Motor Drive: <span class="motor-drive">{{ order.motor_driver_type }}</span></p>
+              <p class="va-user-info ">Cover: <span class="cover"></span>{{ order.cover }}</p>
+              <p class="va-user-info ">Fillament Chamber: <span class="fillament-chamber">{{ order.filament_chamber }}</span></p>
+              <p class="va-user-info ">UPS Module: <span class="ups-module">{{ order.ups_module }}</span></p>
+              <p class="va-user-info ">Auto bed leveling: <span class="auto-bed-leveling">{{ order.bed_ablsize }}</span></p>
+              <p class="va-user-info ">Wifi connectivity: <span class="wifi">{{ order.wifi }}</span></p>
+              <p class="va-user-info ">Fillament: <span class="fillament">{{ order.filament }}</span></p>
+              <h4 class="va-user-name user-name">Total: <span class="total">{{ order.price }}</span> BDT</h4>
+            <div class="va-user-btn">
+              <button class="varify-btn" onclick="location.href='{% url 'admin:home_orders_change' order.id %}'">Edit</button>
+              <button class="white-btn" onclick="order_update({{ order.id }})">Approve</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="page-number-container">
+          <ul>
+            {% if page_obj.has_previous %}
+            <li><a class="prev" href="?page=1">First</a></li>
+            <li><a class="prev" href="?page={{page_obj.previous_page_number}}">< Prev</a></li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-number page-active"><a href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-number"><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li><a class="next" href="?page={{ page_obj.next_page_number }}">Next ></a></li>
+            <li><a class="next" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+            {% endif %}
+          </ul>
+        </div>
+
+      </div>
+    </section>
+    {% include "home/footer.html" %}
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    function order_update (order_id){
+        alert(order_id);
+    }
+</script>
+{% endblock js %}
