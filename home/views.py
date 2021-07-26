@@ -234,8 +234,8 @@ def activate(request, uidb64, token):
 
 @login_required
 def dashboard(request):
-    orders = Orders.objects.filter(user = request.user)
-    print_orders = PrintOrders.objects.filter(user = request.user)
+    orders = Orders.objects.filter(user = request.user).order_by('-id')
+    print_orders = PrintOrders.objects.filter(user = request.user).order_by('-id')
     profiles = ProfileInfo.objects.filter(user = request.user)
     profile = profiles[0]
     context = {
